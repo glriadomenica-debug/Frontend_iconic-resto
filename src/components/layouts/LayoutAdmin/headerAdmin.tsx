@@ -1,5 +1,6 @@
 import { IoSearchOutline } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 export default function HeaderAdmin() {
   return (
@@ -15,16 +16,43 @@ export default function HeaderAdmin() {
               </h1>
               <nav>
                 <ul className="flex items-center gap-8 text-gray-600 font-medium">
-                  <li className="text-orange-500 border-b-2 border-orange-500 pb-1 cursor-pointer">
-                    Menu
+                  <li>
+                    <NavLink
+                      to="/menu"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-orange-500 border-b-2 border-orange-500 pb-1"
+                          : "hover:text-orange-500 pb-1"
+                      }
+                    >
+                      Menu
+                    </NavLink>
                   </li>
 
-                  <li className="hover:text-orange-500 cursor-pointer">
-                    Orders
+                  <li>
+                    <NavLink
+                      to="/orders"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-orange-500 border-b-2 border-orange-500 pb-1"
+                          : "hover:text-orange-500 pb-1"
+                      }
+                    >
+                      Orders
+                    </NavLink>
                   </li>
 
-                  <li className="hover:text-orange-500 cursor-pointer">
-                    Inventory
+                  <li>
+                    <NavLink
+                      to="/inventory"
+                      className={({ isActive }) =>
+                        isActive
+                          ? "text-orange-500 border-b-2 border-orange-500 pb-1"
+                          : "hover:text-orange-500 pb-1"
+                      }
+                    >
+                      Inventory
+                    </NavLink>
                   </li>
                 </ul>
               </nav>
@@ -52,11 +80,6 @@ export default function HeaderAdmin() {
             </div>
           </div>
         </header>
-
-        {/* Content */}
-        {/* <main className="flex-1 overflow-y-auto p-6 bg-orange-50">
-          <Outlet />
-        </main> */}
       </div>
     </>
   );
