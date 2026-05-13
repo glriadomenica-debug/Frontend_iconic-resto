@@ -208,7 +208,7 @@ export default function ListCategory() {
       <CategoryModalConfirmation
         openModal={openModalDelete}
         setOpenModal={setOpenModalDelete}
-        title="Delete User"
+        title="Delete Category"
         description="Are you sure you want to delete this category?"
         handleSubmit={handleDeleteCat}
       />
