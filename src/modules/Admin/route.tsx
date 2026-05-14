@@ -3,7 +3,7 @@ import LayoutAdmin from "../../components/layouts/LayoutAdmin/layoutAdmin";
 
 const AdminRoutes = [
   {
-    path: "/",
+    path: "/dashboard",
     element :<LayoutAdmin/>,
     children : [
       {

@@ -72,7 +72,7 @@ export default function SidebarAdmin({
             <ul className="space-y-2">
               <li>
                 <NavLink
-                  to="/"
+                  to="/dashboard"
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
                       isActive ? "bg-orange-500" : "hover:bg-orange-600"

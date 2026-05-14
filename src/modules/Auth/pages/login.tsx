@@ -1,0 +1,98 @@
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+
+interface formLogin {
+  email: string;
+  password: string;
+}
+
+export default function App() {
+  const navigate = useNavigate();
+  const [form, setForm] = useState<formLogin>({
+    email: "",
+    password: "",
+  });
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleChange = (event: any) => {
+    //event - adalah event listener
+    setForm({
+      ...form,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "http://localhost:8000/api/auth/login",
+        data: form,
+      });
+      localStorage.setItem("token", response.data.data.token);
+      toast.success("Login success");
+      navigate("/dashboard"); // Redirect login ke genre kalau loginnya sukses
+    } catch (error: any) {
+      console.log(error, "error");
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  console.log(form, "form");
+
+  return (
+    <>
+      <div className="flex h-screen justify-center">
+        {/* left */}
+        <div className="">
+          <div className="bg-gray-300 shadow lg:mx-32 mx-4 p-8 rounded-xl">
+            <h1 className="flex text-4xl text-left mb-4 text-blue-900 font-bold">
+              Log in
+            </h1>
+            <p className="text-gray-400">
+              Please enter your email and password
+            </p>
+
+            <div className="text-black flex flex-col gap-4">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                onChange={handleChange}
+                className="border border-gray-400 p-2 w-full rounded-xl"
+              />
+            </div>
+
+            <div className="text-black flex flex-col gap-4 mt-2">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                onChange={handleChange}
+                className="border border-gray-400 p-2 w-full rounded-xl"
+              />
+            </div>
+
+            {/* <p className='text-gray-500 text-xs mt-4'>Don't have an account?</p>
+            <span className="text-blue-800 cursor-pointer" onClick={() => navigate("/register")}>Register</span> */}
+
+            <button
+              className="bg-blue-900 text-white p-2 w-full rounded-xl mt-4 cursor-pointer"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              Log in
+            </button>
+          </div>
+        </div>
+      </div>
+      <ToastContainer />
+    </>
+  );
+}
