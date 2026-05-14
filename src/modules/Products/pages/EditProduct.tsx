@@ -8,58 +8,87 @@ interface Category {
   category_name: string;
 }
 
+interface EditProduct {
+  id: number;
+  category_id: number;
+  product_name: string;
+  price: number;
+  stock: number;
+  image: string;
+}
+
 export default function EditProduct() {
   const id = useParams().id;
   const navigate = useNavigate();
-  const [_category, setCategory] = useState<Category>({
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [_editProduct, setEditProduct] = useState<EditProduct>({
     id: 0,
-    category_name: "",
+    category_id: 0,
+    product_name: "",
+    price: 0,
+    stock: 0,
+    image: "",
   });
-
-  const [formCategory, setFormCategory] = useState<any>({});
+  const [formEditProduct, setFormEditProduct] = useState<any>({});
 
   const handleChange = (event: any) => {
-    setFormCategory({
-      ...formCategory,
+    setFormEditProduct({
+      ...formEditProduct,
       [event.target.name]: event.target.value,
     });
   };
 
-  //untuk ambil semua data yang ada di DB Category
-  const fetchCategory = async () => {
+  //untuk ambil semua data yang ada di DB Product
+  const fetchProduct = async () => {
     try {
       const response = await axios({
         method: "GET",
-        url: "http://localhost:8000/api/categories/" + id,
+        url: "http://localhost:8000/api/products/" + id,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       console.log(response, "response");
 
-      await setCategory(response.data.data);
-      await setFormCategory(response.data.data);
+      await setEditProduct(response.data.data);
+      await setFormEditProduct(response.data.data);
     } catch (error) {
       console.log(error, "error");
+    }
+  };
+  const fetchCategory = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: "http://localhost:8000/api/categories",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      setCategories(response.data.data.data || []);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     fetchCategory();
+    fetchProduct();
   }, [id]);
 
   const handleSubmitUpdate = async () => {
     try {
       const response = await axios({
         method: "PUT",
-        url: "http://localhost:8000/api/categories/" + id,
+        url: "http://localhost:8000/api/products/" + id,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        data: formCategory,
+        data: formEditProduct,
       });
       console.log(response, "response");
-      navigate("/categories");
+      navigate("/products");
     } catch (error) {
       console.log(error, "error");
     }
@@ -70,21 +99,71 @@ export default function EditProduct() {
       <div className="bg-white rounded-xl px-4 py-4 opacity-80">
         <div className="flex items-center text-xl text-blue-900 font-bold">
           <AiFillEdit />
-          Edit Category
+          Edit Product
         </div>
 
         <div className="py-4 text-1xl">
-          <label htmlFor="category_name" className="text-blue-900">
-            Category Name
+          <label htmlFor="category_id" className="text-blue-900">
+            Food Category
+          </label>
+          <select
+            name="category_id"
+            className="w-full border border-gray-400 my-2 p-2 rounded"
+            onChange={handleChange}
+            value={formEditProduct.category_id || ""}
+          >
+            <option value="">-- Select Food Category --</option>
+
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.category_name}
+              </option>
+            ))}
+          </select>
+
+          <label htmlFor="product_name" className="text-blue-900">
+            Product
           </label>
           <input
             type="text"
-            name="category_name"
+            name="product_name"
             className="w-full border border-gray-400 my-2 p-2 rounded"
             onChange={handleChange}
-            value={formCategory.category_name || ""}
+            value={formEditProduct.product_name || ""}
           />
         </div>
+
+        <label htmlFor="price" className="text-blue-900">
+          Price
+        </label>
+        <input
+          type="number"
+          name="price"
+          className="w-full border border-gray-400 my-2 p-2 rounded"
+          onChange={handleChange}
+          value={formEditProduct.price || ""}
+        />
+        <label htmlFor="stock" className="text-blue-900">
+          Stock
+        </label>
+        <input
+          type="number"
+          name="stock"
+          className="w-full border border-gray-400 my-2 p-2 rounded"
+          onChange={handleChange}
+          value={formEditProduct.stock || ""}
+        />
+
+        <label htmlFor="image" className="text-blue-900">
+          Image
+        </label>
+        <input
+          type="text"
+          name="image"
+          className="w-full border border-gray-400 my-2 p-2 rounded"
+          onChange={handleChange}
+          value={formEditProduct.image || ""}
+        />
 
         <div className="my-4">
           <button

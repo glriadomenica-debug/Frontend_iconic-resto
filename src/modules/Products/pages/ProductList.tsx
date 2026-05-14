@@ -1,37 +1,53 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../../components/modals/Category/CatModal";
-import CategoryModalConfirmation from "../../../components/modals/Category/CatModalConfirmation";
+import Modal from "../../../components/modals/Product/ProdModal";
+import ProductModalConfirmation from "../../../components/modals/Product/ProdModalConfirmation";
 
 interface Category {
   id: number;
   category_name: string;
 }
 
-export default function Listproduct() {
-  const [categories, setCategories] = useState<Category[]>([]);
+interface Product {
+  id: number;
+  category_id: number;
+  category?: Category;
+  product_name: string;
+  price: number;
+  stock: number;
+  image: string;
+}
+
+export default function ListProduct() {
+  const [product, setProduct] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [openModal, setOpenModal] = useState(false);
   const [openModalDelete, setOpenModalDelete] = useState(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [lastPage, setLastPage] = useState<number>(1);
-  const [formCategory, setFormCategory] = useState({
-    category_name: "",
+  const [formProduct, setFormProduct] = useState({
+    category_id: 0,
+    product_name: "",
+    price: 0,
+    stock: 0,
+    image: "",
   });
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [Categories, setCategories] = useState<Category[]>([]);
+  // const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const navigate = useNavigate();
 
-  const fetchCategories = async () => {
+  const fetchProduct = async () => {
     try {
       const res = await axios({
         method: "GET",
-        url: `http://localhost:8000/api/categories?page=${currentPage}`,
+        url: `http://localhost:8000/api/products?page=${currentPage}`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      setCategories(res.data.data.data || []);
+      setProduct(res.data.data.data || []);
       setLastPage(res.data.data.last_page);
     } catch (err) {
       console.log(err);
@@ -40,71 +56,87 @@ export default function Listproduct() {
     }
   };
 
-  useEffect(() => {
-    fetchCategories();
-  }, [currentPage]);
-
-  const handleChangeCategory = (e: any) => {
-    setFormCategory({
-      ...formCategory,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmitCategory = async () => {
+  const fetchCategory = async () => {
     try {
-      await axios({
-        method: "POST",
+      const response = await axios({
+        method: "GET",
         url: "http://localhost:8000/api/categories",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        data: formCategory,
       });
-      fetchCategories();
-      setOpenModal(false);
-      setFormCategory({
-        category_name: "",
-      });
+      setCategories(response.data.data.data || []);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleDeleteCat = async () => {
+  useEffect(() => {
+    fetchProduct();
+    fetchCategory();
+  }, [currentPage]);
+
+  const handleChangeProduct = (e: any) => {
+    setFormProduct({
+      ...formProduct,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmitProduct = async () => {
+    try {
+      await axios({
+        method: "POST",
+        url: "http://localhost:8000/api/products",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        data: formProduct,
+      });
+      fetchProduct();
+      setOpenModal(false);
+      // setFormProduct();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteProd = async () => {
     try {
       await axios({
         method: "DELETE",
-        url: `http://localhost:8000/api/categories/${selectedId}`,
+        url: `http://localhost:8000/api/products/${selectedId}`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      fetchCategories();
+      fetchProduct();
       setOpenModalDelete(false);
     } catch (error: any) {
       alert(error.response.data.data);
     }
   };
 
+  // Filter Categorry
+  // const handleCategoryClick = (id: number) => {
+  //   setSelectedCategory(id);
+  //   fetchProduct();
+  // };
+
   return (
     <>
       <div className="bg-white rounded-2xl shadow-md p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">
-              Categories List
-            </h1>
-            <p className="text-sm text-gray-500">
-              Manage restaurant categories
-            </p>
+            <h1 className="text-2xl font-bold text-gray-800">Product List</h1>
+            <p className="text-sm text-gray-500">Manage restaurant product</p>
           </div>
 
           <button
             onClick={() => setOpenModal(true)}
             className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-xl transition"
           >
-            + Add Category
+            + Add Product
           </button>
         </div>
         <div className="overflow-x-auto">
@@ -112,9 +144,11 @@ export default function Listproduct() {
             <thead>
               <tr className="bg-orange-100 text-gray-700">
                 <th className="text-left px-4 py-3 rounded-l-xl">No</th>
-
-                <th className="text-left px-4 py-3">Category Name</th>
-
+                <th className="text-left px-4 py-3">Food Category</th>
+                <th className="text-left px-4 py-3">Product</th>
+                <th className="text-left px-4 py-3">Price</th>
+                <th className="text-left px-4 py-3">Stock</th>
+                <th className="text-left px-4 py-3">Image</th>
                 <th className="text-center px-4 py-3 rounded-r-xl">Action</th>
               </tr>
             </thead>
@@ -122,20 +156,32 @@ export default function Listproduct() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={3} className="text-center py-6 text-gray-500">
+                  <td colSpan={7} className="text-center py-6 text-gray-500">
                     Loading...
                   </td>
                 </tr>
-              ) : categories.length > 0 ? (
-                categories.map((category, index) => (
+              ) : product.length > 0 ? (
+                product.map((product, index) => (
                   <tr
-                    key={category.id}
+                    key={product.id}
                     className="border-b border-gray-100 hover:bg-orange-50 transition"
                   >
                     <td className="px-4 py-4">{index + 1}</td>
 
                     <td className="px-4 py-4 font-medium text-gray-700">
-                      {category.category_name}
+                      {product.category?.category_name}
+                    </td>
+                    <td className="px-4 py-4 font-medium text-gray-700">
+                      {product.product_name}
+                    </td>
+                    <td className="px-4 py-4 font-medium text-gray-700">
+                      Rp. {(product.price * 1000).toLocaleString("id-ID")}
+                    </td>
+                    <td className="px-4 py-4 font-medium text-gray-700">
+                      {product.stock}
+                    </td>
+                    <td className="px-4 py-4 font-medium text-gray-700">
+                      {product.image}
                     </td>
 
                     <td className="px-4 py-4">
@@ -143,7 +189,7 @@ export default function Listproduct() {
                         <button
                           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition cursor-pointer"
                           onClick={() =>
-                            navigate(`/categories/edit/${category.id}`)
+                            navigate(`/products/edit/${product.id}`)
                           }
                         >
                           Edit
@@ -152,7 +198,7 @@ export default function Listproduct() {
                         <button
                           className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm transition cursor-pointer"
                           onClick={() => {
-                            setSelectedId(category.id);
+                            setSelectedId(product.id);
                             setOpenModalDelete(true);
                           }}
                         >
@@ -164,8 +210,8 @@ export default function Listproduct() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={3} className="text-center py-6 text-gray-500">
-                    No categories found
+                  <td colSpan={7} className="text-center py-6 text-gray-500">
+                    No product found
                   </td>
                 </tr>
               )}
@@ -201,16 +247,17 @@ export default function Listproduct() {
       <Modal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        handleChange={handleChangeCategory}
-        handleSubmit={handleSubmitCategory}
-        title="Add new category"
+        handleChange={handleChangeProduct}
+        handleSubmit={handleSubmitProduct}
+        categories={Categories}
+        title="Add new product"
       />
-      <CategoryModalConfirmation
+      <ProductModalConfirmation
         openModal={openModalDelete}
         setOpenModal={setOpenModalDelete}
-        title="Delete User"
-        description="Are you sure you want to delete this category?"
-        handleSubmit={handleDeleteCat}
+        title="Delete Product"
+        description="Are you sure you want to delete this product?"
+        handleSubmit={handleDeleteProd}
       />
     </>
   );

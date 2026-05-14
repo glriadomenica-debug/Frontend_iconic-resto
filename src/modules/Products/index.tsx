@@ -1,2 +1,2 @@
-import { default as ListProd } from "./pages/ProductList";
-import { default as EditProd } from "./pages/EditProduct";
+export { default as ListProduct } from "./pages/ProductList";
+export { default as EditProduct } from "./pages/EditProduct";
