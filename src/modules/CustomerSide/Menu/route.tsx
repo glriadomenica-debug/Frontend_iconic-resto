@@ -1,4 +1,5 @@
 import Menu from "./pages/menu";
+import Myorder from "./pages/myorder";
 import LayoutCust from "../../../components/layouts/LayoutCustomer/layoutCust";
 const LoginRoutes = [
   {
@@ -8,6 +9,16 @@ const LoginRoutes = [
       {
         index: true,
         element: <Menu />,
+      },
+    ],
+  },
+  {
+    path: "/myorders",
+    element: <LayoutCust />,
+    children: [
+      {
+        index: true,
+        element: <Myorder />,
       },
     ],
   },
