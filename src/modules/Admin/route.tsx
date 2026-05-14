@@ -14,7 +14,7 @@ const AdminRoutes = [
     ],
   },
   {
-    path: "/menu",
+    path: "/admin/menu",
     element: <LayoutAdmin />,
     children: [
       {

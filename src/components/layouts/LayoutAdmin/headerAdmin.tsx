@@ -27,7 +27,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
             <ul className="flex items-center gap-6 text-gray-600 font-medium">
               <li>
                 <NavLink
-                  to="/menu"
+                  to="/admin/menu"
                   className={({ isActive }) =>
                     isActive
                       ? "text-orange-500 border-b-2 border-orange-500 pb-1"
