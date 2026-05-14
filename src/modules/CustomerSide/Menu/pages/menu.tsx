@@ -22,29 +22,27 @@ export default function MenuPage() {
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [openDetail, setOpenDetail] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const productPerPage = 6;
-  const lastIndex = currentPage * productPerPage;
-  const firstIndex = lastIndex - productPerPage;
-  const currentProducts = products.slice(firstIndex, lastIndex);
-  const totalPages = Math.ceil(products.length / productPerPage);
+  const [totalPages, setTotalPages] = useState(1);
 
   // FETCH PRODUCT
-  const fetchProducts = async () => {
+  const fetchProducts = async (page = 1) => {
     try {
       const res = await axios({
         method: "GET",
-        url: "http://localhost:8000/api/products",
+        url: `http://localhost:8000/api/products?page=${page}`,
       });
 
       setProducts(res.data.data.data || []);
+      setTotalPages(res.data.data.last_page);
+      setCurrentPage(res.data.data.current_page);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    fetchProducts(currentPage);
+  }, [currentPage]);
 
   // ADD TO CART
   const addToCart = (product: Product) => {
@@ -161,7 +159,7 @@ export default function MenuPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-            {currentProducts.map((p) => (
+            {products.map((p) => (
               <div
                 key={p.id}
                 className="border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition"
