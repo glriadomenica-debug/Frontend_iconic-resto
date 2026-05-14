@@ -34,7 +34,7 @@ export default function MenuPage() {
 
       setProducts(res.data.data.data || []);
       setTotalPages(res.data.data.last_page);
-      setCurrentPage(res.data.data.current_page);
+      // setCurrentPage(res.data.data.current_page);
     } catch (error) {
       console.log(error);
     }
