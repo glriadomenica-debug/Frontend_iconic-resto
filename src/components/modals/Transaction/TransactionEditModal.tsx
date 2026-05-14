@@ -20,7 +20,6 @@ export default function TransactionEditModal({
       <div className="bg-white w-[400px] p-6 rounded">
         <h1 className="text-xl font-bold mb-3">Edit Transaction #{data.id}</h1>
 
-        {/* CUSTOMER NAME */}
         <label>Customer Name</label>
         <input
           className="border w-full p-2 mb-3"
@@ -28,7 +27,6 @@ export default function TransactionEditModal({
           onChange={(e) => setData({ ...data, customer_name: e.target.value })}
         />
 
-        {/* STATUS */}
         <label>Status</label>
         <select
           className="border w-full p-2 mb-3"

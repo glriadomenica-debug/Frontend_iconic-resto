@@ -91,7 +91,7 @@ export default function TransactionList() {
     try {
       await axios.put(
         `http://localhost:8000/api/transactions/${editData.id}`,
-        { status: editData.status },
+        { customer_name: editData.customer_name, status: editData.status },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -101,7 +101,13 @@ export default function TransactionList() {
 
       setTransactions((prev) =>
         prev.map((t) =>
-          t.id === editData.id ? { ...t, status: editData.status } : t,
+          t.id === editData.id
+            ? {
+                ...t,
+                customer_name: editData.customer_name,
+                status: editData.status,
+              }
+            : t,
         ),
       );
 
