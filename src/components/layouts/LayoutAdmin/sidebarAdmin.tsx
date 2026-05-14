@@ -2,44 +2,80 @@ import {
   IoGridOutline,
   IoFastFoodOutline,
   IoLogOutOutline,
+  IoCloseOutline,
 } from "react-icons/io5";
-import { FaUser } from "react-icons/fa";
-import { FaMoneyBillWave } from "react-icons/fa";
+
+import { FaUser, FaMoneyBillWave } from "react-icons/fa";
 import { FiLayers } from "react-icons/fi";
 import { MdOutlineRestaurantMenu } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
-export default function sidebarAdmin() {
+interface SidebarProps {
+  sidebarOpen: boolean;
+  setSidebarOpen: (value: boolean) => void;
+}
+
+export default function SidebarAdmin({
+  sidebarOpen,
+  setSidebarOpen,
+}: SidebarProps) {
   return (
     <>
+      {/* Overlay Mobile */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className=" bg-gray-900 text-white flex flex-col justify-between">
+      <aside
+        className={`
+          fixed lg:static top-0 left-0 z-50
+          h-screen w-[260px]
+          bg-gray-900 text-white
+          flex flex-col justify-between
+          transform transition-transform duration-300
+
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          lg:translate-x-0
+        `}
+      >
         <div>
           {/* Logo */}
-          <div className="px-4 py-5">
+          <div className="px-4 py-5 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="bg-orange-500 p-3 rounded-xl">
                 <IoFastFoodOutline className="text-xl text-white" />
               </div>
 
               <div>
-                <h1 className="font-bold text-2xl">Iconic Self Order</h1>
-                <p className="text-sm text-gray-400">Role yang login</p>
+                <h1 className="font-bold text-lg md:text-xl">
+                  Iconic Self Order
+                </h1>
+
+                <p className="text-xs md:text-sm text-gray-400">
+                  Role yang login
+                </p>
               </div>
             </div>
+
+            {/* Close Mobile */}
+            <button className="lg:hidden" onClick={() => setSidebarOpen(false)}>
+              <IoCloseOutline className="text-2xl" />
+            </button>
           </div>
 
           {/* Menu */}
-          <nav className="mt-8 px-4">
-            <ul className="space-y-3">
+          <nav className="mt-6 px-4">
+            <ul className="space-y-2">
               <li>
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
-                    `w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition ${
-                      isActive
-                        ? "bg-orange-500 text-white"
-                        : "hover:bg-orange-600 text-white"
+                    `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
+                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
                     }`
                   }
                 >
@@ -52,10 +88,8 @@ export default function sidebarAdmin() {
                 <NavLink
                   to="/categories"
                   className={({ isActive }) =>
-                    `w-full flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                      isActive
-                        ? "bg-orange-500 text-white"
-                        : "hover:bg-orange-600 text-white"
+                    `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
+                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
                     }`
                   }
                 >
@@ -68,10 +102,8 @@ export default function sidebarAdmin() {
                 <NavLink
                   to="/products"
                   className={({ isActive }) =>
-                    `w-full flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                      isActive
-                        ? "bg-orange-500 text-white"
-                        : "hover:bg-orange-600 text-white"
+                    `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
+                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
                     }`
                   }
                 >
@@ -84,10 +116,8 @@ export default function sidebarAdmin() {
                 <NavLink
                   to="/transactions"
                   className={({ isActive }) =>
-                    `w-full flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                      isActive
-                        ? "bg-orange-500 text-white"
-                        : "hover:bg-orange-600 text-white"
+                    `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
+                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
                     }`
                   }
                 >
@@ -100,10 +130,8 @@ export default function sidebarAdmin() {
                 <NavLink
                   to="/staff"
                   className={({ isActive }) =>
-                    `w-full flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                      isActive
-                        ? "bg-orange-500 text-white"
-                        : "hover:bg-orange-600 text-white"
+                    `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
+                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
                     }`
                   }
                 >
@@ -114,8 +142,9 @@ export default function sidebarAdmin() {
             </ul>
           </nav>
         </div>
+
         {/* Logout */}
-        <div className="p-4 border-t border-white">
+        <div className="p-4 border-t border-gray-700">
           <button className="w-full flex items-center gap-3 hover:bg-gray-700 transition px-4 py-3 rounded-xl">
             <IoLogOutOutline className="text-xl" />
             Logout

@@ -1,86 +1,96 @@
-import { IoSearchOutline } from "react-icons/io5";
+import { IoSearchOutline, IoMenuOutline } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
-export default function HeaderAdmin() {
+interface HeaderProps {
+  setSidebarOpen: (value: boolean) => void;
+}
+
+export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
   return (
-    <>
-      {/* Header */}
-      <div>
-        {/* Top Navbar */}
-        <header className="bg-white border-b border-gray-200 px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-10 flex-1">
-              <h1 className="text-4xl justify-between font-bold text-orange-600">
-                DineFlow
-              </h1>
-              <nav>
-                <ul className="flex items-center gap-8 text-gray-600 font-medium">
-                  <li>
-                    <NavLink
-                      to="/menu"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-orange-500 border-b-2 border-orange-500 pb-1"
-                          : "hover:text-orange-500 pb-1"
-                      }
-                    >
-                      Menu
-                    </NavLink>
-                  </li>
+    <header className="bg-white border-b border-gray-200 px-3 sm:px-5 md:px-8 py-4">
+      <div className="flex items-center justify-between gap-3">
+        {/* Left */}
+        <div className="flex items-center gap-3 md:gap-8 flex-1">
+          {/* Menu Mobile */}
+          <button className="lg:hidden" onClick={() => setSidebarOpen(true)}>
+            <IoMenuOutline className="text-3xl text-gray-700" />
+          </button>
 
-                  <li>
-                    <NavLink
-                      to="/orders"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-orange-500 border-b-2 border-orange-500 pb-1"
-                          : "hover:text-orange-500 pb-1"
-                      }
-                    >
-                      Orders
-                    </NavLink>
-                  </li>
+          {/* Logo */}
+          <h1 className="text-2xl sm:text-3xl font-bold text-orange-600">
+            DineFlow
+          </h1>
 
-                  <li>
-                    <NavLink
-                      to="/inventory"
-                      className={({ isActive }) =>
-                        isActive
-                          ? "text-orange-500 border-b-2 border-orange-500 pb-1"
-                          : "hover:text-orange-500 pb-1"
-                      }
-                    >
-                      Inventory
-                    </NavLink>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+          {/* Nav Desktop */}
+          <nav className="hidden md:block">
+            <ul className="flex items-center gap-6 text-gray-600 font-medium">
+              <li>
+                <NavLink
+                  to="/menu"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-orange-500 border-b-2 border-orange-500 pb-1"
+                      : "hover:text-orange-500 pb-1"
+                  }
+                >
+                  Menu
+                </NavLink>
+              </li>
 
-            <div className="flex items-center gap-5">
-              {/* Search */}
-              <div className="flex items-center bg-gray-100 px-4 py-2 rounded-xl">
-                <IoSearchOutline className="text-gray-500" />
-                <input
-                  type="text"
-                  placeholder="Search orders..."
-                  className="bg-transparent outline-none ml-2 w-full text-sm"
-                />
-              </div>
-              {/* Profile */}
-              <div className="flex items-center gap-3 cursor-pointer">
-                <FaUserCircle className="text-4xl text-gray-600" />
+              <li>
+                <NavLink
+                  to="/orders"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-orange-500 border-b-2 border-orange-500 pb-1"
+                      : "hover:text-orange-500 pb-1"
+                  }
+                >
+                  Orders
+                </NavLink>
+              </li>
 
-                <div>
-                  <h2 className="font-semibold text-sm">Nama</h2>
-                  <p className="text-xs text-gray-500">Role</p>
-                </div>
-              </div>
+              <li>
+                <NavLink
+                  to="/inventory"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-orange-500 border-b-2 border-orange-500 pb-1"
+                      : "hover:text-orange-500 pb-1"
+                  }
+                >
+                  Inventory
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        {/* Right */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          {/* Search */}
+          <div className="hidden sm:flex items-center bg-gray-100 px-3 py-2 rounded-xl w-[180px] md:w-[250px]">
+            <IoSearchOutline className="text-gray-500" />
+
+            <input
+              type="text"
+              placeholder="Search..."
+              className="bg-transparent outline-none ml-2 w-full text-sm"
+            />
+          </div>
+
+          {/* Profile */}
+          <div className="flex items-center gap-2 sm:gap-3 cursor-pointer">
+            <FaUserCircle className="text-3xl md:text-4xl text-gray-600" />
+
+            <div className="hidden sm:block">
+              <h2 className="font-semibold text-sm">Nama</h2>
+              <p className="text-xs text-gray-500">Role</p>
             </div>
           </div>
-        </header>
+        </div>
       </div>
-    </>
+    </header>
   );
 }
