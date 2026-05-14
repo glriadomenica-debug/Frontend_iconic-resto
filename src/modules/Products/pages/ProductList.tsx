@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AiTwotoneEdit } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
 import Modal from "../../../components/modals/Product/ProdModal";
 import ProductModalConfirmation from "../../../components/modals/Product/ProdModalConfirmation";
 
@@ -192,7 +194,7 @@ export default function ListProduct() {
                             navigate(`/products/edit/${product.id}`)
                           }
                         >
-                          Edit
+                          <AiTwotoneEdit />
                         </button>
 
                         <button
@@ -202,7 +204,7 @@ export default function ListProduct() {
                             setOpenModalDelete(true);
                           }}
                         >
-                          Delete
+                          <AiFillDelete />
                         </button>
                       </div>
                     </td>
