@@ -4,9 +4,11 @@ import categoryRoutes from "../modules/Categories/route";
 import productRoutes from "../modules/Products/route";
 import MenuRoutes from "../modules/CustomerSide/Menu/route";
 import TransactionRoute from "../modules/Transaction/route";
+import LoginRoutes from "../modules/Auth/route";
 
 export default function AppRoutes() {
   return useRoutes([
+    ...LoginRoutes,
     ...adminRoutes,
     ...categoryRoutes,
     ...productRoutes,
