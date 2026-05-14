@@ -1,10 +1,9 @@
 import Menu from "./pages/menu";
-import LayoutAdmin from "../../../components/layouts/LayoutAdmin/layoutAdmin";
-
-const MenuRoutes = [
+import LayoutCust from "../../../components/layouts/LayoutCustomer/layoutCust";
+const LoginRoutes = [
   {
-    path: "/menu",
-    element: <LayoutAdmin />,
+    path: "/",
+    element: <LayoutCust />,
     children: [
       {
         index: true,
@@ -13,4 +12,4 @@ const MenuRoutes = [
     ],
   },
 ];
-export default MenuRoutes;
+export default LoginRoutes;
