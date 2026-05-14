@@ -17,21 +17,46 @@ export default function MenuPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [paymentMethod, setPaymentMethod] = useState("cash");
-
+  const [customerName, setCustomerName] = useState("");
+  const [tableNumber, setTableNumber] = useState("");
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [openDetail, setOpenDetail] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productPerPage = 6;
+  const lastIndex = currentPage * productPerPage;
+  const firstIndex = lastIndex - productPerPage;
+  const currentProducts = products.slice(firstIndex, lastIndex);
+  const totalPages = Math.ceil(products.length / productPerPage);
+
+  // FETCH PRODUCT
+  const fetchProducts = async () => {
+    try {
+      const res = await axios({
+        method: "GET",
+        url: "http://localhost:8000/api/products",
+      });
+
+      setProducts(res.data.data.data || []);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/products").then((res) => {
-      setProducts(res.data.data.data);
-    });
+    fetchProducts();
   }, []);
 
+  // ADD TO CART
   const addToCart = (product: Product) => {
     setCart((prev) => {
       const exist = prev.find((i) => i.id === product.id);
 
       if (exist) {
+        if (exist.qty >= product.stock) {
+          alert("Stock limit reached!");
+          return prev;
+        }
+
         return prev.map((i) =>
           i.id === product.id ? { ...i, qty: i.qty + 1 } : i,
         );
@@ -41,6 +66,7 @@ export default function MenuPage() {
     });
   };
 
+  // CHANGE QTY
   const changeQty = (id: number, qty: number) => {
     if (qty <= 0) {
       setCart(cart.filter((i) => i.id !== id));
@@ -50,118 +76,230 @@ export default function MenuPage() {
     setCart((prev) => prev.map((i) => (i.id === id ? { ...i, qty } : i)));
   };
 
+  // TOTAL
   const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
 
+  // CHECKOUT
   const checkout = async () => {
+    if (!customerName || !tableNumber) {
+      alert("Customer name and table number are required!");
+      return;
+    }
+
+    if (cart.length === 0) {
+      alert("Cart is empty!");
+      return;
+    }
+
     try {
       const payload = {
         user_id: 1,
+        customer_name: customerName,
+        table_number: tableNumber,
         payment_method: paymentMethod,
+
         items: cart.map((i) => ({
           product_id: i.id,
           qty: i.qty,
         })),
       };
 
-      const res = await axios.post(
-        "http://localhost:8000/api/transactions",
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      const res = await axios({
+        method: "POST",
+        url: "http://localhost:8000/api/transactions",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      );
+        data: payload,
+      });
 
       setCart([]);
 
       const id = res.data.data.id;
 
-      const detail = await axios.get(
-        `http://localhost:8000/api/transactions/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      const detail = await axios({
+        method: "GET",
+        url: `http://localhost:8000/api/transactions/${id}`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      );
+      });
 
       setSelectedTransaction(detail.data.data);
+
       setOpenDetail(true);
+
+      setCustomerName("");
+      setTableNumber("");
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className="flex gap-6 p-6">
-      {/* PRODUCTS */}
-      <div className="w-2/3">
-        <h1 className="font-bold text-xl mb-4">Transaction</h1>
+    <>
+      <div className="flex flex-col lg:flex-row gap-6 p-4 lg:p-6">
+        {/* Menu product */}
+        <div className="w-full lg:w-2/3 bg-white rounded-2xl shadow-md p-4 lg:p-6">
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-gray-800">
+              Restaurant Menu
+            </h1>
 
-        <div className="grid grid-cols-3 gap-4">
-          {products.map((p) => (
-            <div key={p.id} className="border p-4 rounded">
-              <h2 className="font-bold">{p.product_name}</h2>
-              <p>Rp {(p.price * 1000).toLocaleString("id-ID")}</p>
+            <p className="text-sm text-gray-500">
+              Choose your favorite food & drinks
+            </p>
+          </div>
 
-              <button
-                onClick={() => addToCart(p)}
-                className="bg-green-500 text-white px-3 py-1 mt-2"
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+            {currentProducts.map((p) => (
+              <div
+                key={p.id}
+                className="border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition"
               >
-                Add
-              </button>
-            </div>
-          ))}
+                <h2 className="font-bold text-lg text-gray-800">
+                  {p.product_name}
+                </h2>
+
+                <p className="text-orange-500 font-semibold mt-2">
+                  Rp. {(p.price * 1000).toLocaleString("id-ID")}
+                </p>
+
+                <p className="text-sm text-gray-500 mt-1">Stock : {p.stock}</p>
+
+                <button
+                  onClick={() => addToCart(p)}
+                  disabled={p.stock === 0}
+                  className={`w-full py-2 rounded-xl mt-4 transition text-white ${
+                    p.stock === 0
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-orange-500 hover:bg-orange-600"
+                  }`}
+                >
+                  {p.stock === 0 ? "Out Of Stock" : "Add To Cart"}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Card order */}
+        <div className="w-full lg:w-1/3 bg-white rounded-2xl shadow-md p-4 lg:p-6 h-fit">
+          <h1 className="text-2xl font-bold text-gray-800 mb-5">Cart Order</h1>
+
+          {/* Cust */}
+          <div className="mb-4">
+            <label className="text-sm font-medium text-gray-700">
+              Customer Name
+            </label>
+
+            <input
+              type="text"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+              placeholder="Input customer name"
+              className="border border-gray-300 rounded-xl p-3 w-full mt-2 outline-none focus:ring-2 focus:ring-orange-400"
+            />
+          </div>
+
+          {/* table */}
+          <div className="mb-4">
+            <label className="text-sm font-medium text-gray-700">
+              Table Number
+            </label>
+
+            <input
+              type="text"
+              value={tableNumber}
+              onChange={(e) => setTableNumber(e.target.value)}
+              placeholder="Input table number"
+              className="border border-gray-300 rounded-xl p-3 w-full mt-2 outline-none focus:ring-2 focus:ring-orange-400"
+            />
+          </div>
+
+          {/* items card */}
+          <div className="space-y-4">
+            {cart.length > 0 ? (
+              cart.map((i) => (
+                <div key={i.id} className="border-b pb-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="font-semibold text-gray-800">
+                        {i.product_name}
+                      </h2>
+
+                      <p className="text-sm text-gray-500">
+                        Rp. {(i.price * 1000).toLocaleString("id-ID")}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => changeQty(i.id, i.qty - 1)}
+                        className="bg-red-500 hover:bg-red-600 text-white w-8 h-8 rounded-lg"
+                      >
+                        -
+                      </button>
+
+                      <span className="font-semibold">{i.qty}</span>
+
+                      <button
+                        onClick={() => changeQty(i.id, i.qty + 1)}
+                        className="bg-green-500 hover:bg-green-600 text-white w-8 h-8 rounded-lg"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500 text-center">Cart is empty</p>
+            )}
+          </div>
+
+          {/* Payment method */}
+          <div className="mt-5">
+            <label className="text-sm font-medium text-gray-700">
+              Payment Method
+            </label>
+
+            <select
+              value={paymentMethod}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              className="border border-gray-300 rounded-xl p-3 w-full mt-2 outline-none focus:ring-2 focus:ring-orange-400"
+            >
+              <option value="cash">Cash</option>
+              <option value="qris">QRIS</option>
+              <option value="card">Card</option>
+            </select>
+          </div>
+
+          {/* total */}
+          <div className="mt-6 flex items-center justify-between">
+            <h2 className="text-lg font-bold text-gray-800">Total</h2>
+
+            <h2 className="text-lg font-bold text-orange-500">
+              Rp. {(total * 1000).toLocaleString("id-ID")}
+            </h2>
+          </div>
+
+          {/* button */}
+          <button
+            onClick={checkout}
+            className="bg-orange-500 hover:bg-orange-600 text-white w-full py-3 rounded-xl mt-5 transition"
+          >
+            Checkout
+          </button>
         </div>
       </div>
 
-      {/* CART */}
-      <div className="w-1/3 border p-4 rounded">
-        <h1 className="font-bold">Cart</h1>
-
-        {cart.map((i) => (
-          <div key={i.id}>
-            <p>{i.product_name}</p>
-
-            <div>
-              <button onClick={() => changeQty(i.id, i.qty - 1)}>-</button>
-
-              <span>{i.qty}</span>
-
-              <button onClick={() => changeQty(i.id, i.qty + 1)}>+</button>
-            </div>
-          </div>
-        ))}
-
-        <select
-          value={paymentMethod}
-          onChange={(e) => setPaymentMethod(e.target.value)}
-          className="border w-full mt-3"
-        >
-          <option value="cash">Cash</option>
-          <option value="qris">QRIS</option>
-          <option value="card">Card</option>
-        </select>
-
-        <h2 className="font-bold mt-3">
-          Total: Rp {total.toLocaleString("id-ID")}
-        </h2>
-
-        <button
-          onClick={checkout}
-          className="bg-blue-500 text-white w-full py-2 mt-2"
-        >
-          Checkout
-        </button>
-      </div>
-
-      {/* DETAIL MODAL */}
+      {/* modal */}
       <MenuDetailModal
         open={openDetail}
         setOpen={setOpenDetail}
         data={selectedTransaction}
       />
-    </div>
+    </>
   );
 }

@@ -9,6 +9,7 @@ import TransactionEditModal from "../../../components/modals/Transaction/Transac
 interface Transaction {
   id: number;
   customer_name: string;
+  table_number: number;
   total_price: number;
   payment_method: string;
   status: string;
@@ -139,6 +140,7 @@ export default function TransactionList() {
               <tr className="bg-orange-100 text-gray-700">
                 <th className="text-left px-4 py-3 rounded-l-xl">No</th>
                 <th className="text-left px-4 py-3">Customer</th>
+                <th className="text-left px-4 py-3">Table Number</th>
                 <th className="text-left px-4 py-3">Total</th>
                 <th className="text-left px-4 py-3">Payment</th>
                 <th className="text-left px-4 py-3">Status</th>
@@ -150,7 +152,7 @@ export default function TransactionList() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="text-center py-6 text-gray-500">
+                  <td colSpan={8} className="text-center py-6 text-gray-500">
                     Loading...
                   </td>
                 </tr>
@@ -164,6 +166,10 @@ export default function TransactionList() {
 
                     <td className="px-4 py-4 font-medium text-gray-700">
                       {t.customer_name || "-"}
+                    </td>
+
+                    <td className="px-4 py-4 font-medium text-gray-700 capitalize">
+                      {t.table_number}
                     </td>
 
                     <td className="px-4 py-4 font-medium text-gray-700">
