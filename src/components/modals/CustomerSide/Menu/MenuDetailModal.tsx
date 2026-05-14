@@ -7,17 +7,17 @@ export default function MenuDetailModal({ open, setOpen, data }: any) {
         <h2 className="font-bold text-xl">Transaction #{data.id}</h2>
 
         <p>Status: {data.status}</p>
-        <p>Total: Rp {data.total_price}</p>
-
+        <p>Total: Rp {(data.total_price * 1000).toLocaleString("id-ID")}</p>
         <hr className="my-3" />
 
-        {data.transaction_details.map((i: any) => (
+        {data.transaction_details?.map((i: any) => (
           <div key={i.id}>
             <p className="font-bold">{i.product.product_name}</p>
             <p>
-              {i.qty} x Rp {i.price}
+              {i.qty} x Rp {(i.price * 1000).toLocaleString("id-ID")}
             </p>
-            <p>Subtotal: Rp {i.subtotal}</p>
+
+            <p>Subtotal: Rp {(i.subtotal * 1000).toLocaleString("id-ID")}</p>
           </div>
         ))}
 

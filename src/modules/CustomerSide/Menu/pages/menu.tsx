@@ -66,20 +66,29 @@ export default function MenuPage() {
     });
   };
 
-  // CHANGE QTY
+  // ubah qty
   const changeQty = (id: number, qty: number) => {
+    const product = products.find((p) => p.id === id);
+
+    if (!product) return;
+
     if (qty <= 0) {
       setCart(cart.filter((i) => i.id !== id));
+      return;
+    }
+
+    if (qty > product.stock) {
+      alert("Stock not enough!");
       return;
     }
 
     setCart((prev) => prev.map((i) => (i.id === id ? { ...i, qty } : i)));
   };
 
-  // TOTAL
+  // Total
   const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
 
-  // CHECKOUT
+  // CO
   const checkout = async () => {
     if (!customerName || !tableNumber) {
       alert("Customer name and table number are required!");
@@ -180,6 +189,37 @@ export default function MenuPage() {
                 </button>
               </div>
             ))}
+          </div>
+
+          {/* Page */}
+          <div className="flex items-center justify-center gap-3 mt-8 flex-wrap">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+              className={`px-4 py-2 rounded-lg text-white transition ${
+                currentPage === 1
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-orange-500 hover:bg-orange-600"
+              }`}
+            >
+              Prev
+            </button>
+
+            <span className="font-medium text-gray-700">
+              Page {currentPage} of {totalPages}
+            </span>
+
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+              className={`px-4 py-2 rounded-lg text-white transition ${
+                currentPage === totalPages
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-orange-500 hover:bg-orange-600"
+              }`}
+            >
+              Next
+            </button>
           </div>
         </div>
 
