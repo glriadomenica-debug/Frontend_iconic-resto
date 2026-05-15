@@ -1,6 +1,7 @@
 import Admin from "./pages/AdminDashboard";
 import LayoutAdmin from "../../components/layouts/LayoutAdmin/layoutAdmin";
 import MenuPage from "./pages/MenuPage";
+import MyOrderPage from "./pages/MyOrderPage";
 
 const AdminRoutes = [
   {
@@ -20,6 +21,16 @@ const AdminRoutes = [
       {
         index: true,
         element: <MenuPage />,
+      },
+    ],
+  },
+  {
+    path: "/admin/orders",
+    element: <LayoutAdmin />,
+    children: [
+      {
+        index: true,
+        element: <MyOrderPage />,
       },
     ],
   },

@@ -1,5 +1,5 @@
 import MenuPage from "../../CustomerSide/Menu/pages/menu";
 
-export default function LayoutAdmin() {
+export default function MenuPageAdmin() {
   return <MenuPage />;
 }
