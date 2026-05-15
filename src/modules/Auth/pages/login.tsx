@@ -36,7 +36,7 @@ export default function App() {
       });
       localStorage.setItem("token", response.data.data.token);
       toast.success("Login success");
-      navigate("/dashboard"); // Redirect login ke genre kalau loginnya sukses
+      navigate("/dashboard"); // Redirect login ke dashboard kalau loginnya sukses
     } catch (error: any) {
       console.log(error, "error");
       toast.error(error.response.data.message);
@@ -51,7 +51,7 @@ export default function App() {
       <div className="flex h-screen justify-center">
         {/* left */}
         <div className="">
-          <div className="bg-gray-300 shadow lg:mx-32 mx-4 p-8 rounded-xl">
+          <div className=" lg:mx-32 mx-4 p-8 rounded-xl">
             <h1 className="flex text-4xl text-left mb-4 text-blue-900 font-bold">
               Log in
             </h1>
