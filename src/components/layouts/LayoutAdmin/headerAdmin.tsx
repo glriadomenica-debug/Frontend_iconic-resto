@@ -40,7 +40,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
 
               <li>
                 <NavLink
-                  to="/orders"
+                  to="/admin/orders"
                   className={({ isActive }) =>
                     isActive
                       ? "text-orange-500 border-b-2 border-orange-500 pb-1"
@@ -51,7 +51,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
                 </NavLink>
               </li>
 
-              <li>
+              {/* <li>
                 <NavLink
                   to="/inventory"
                   className={({ isActive }) =>
@@ -62,7 +62,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
                 >
                   Inventory
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </div>
