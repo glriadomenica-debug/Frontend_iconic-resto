@@ -1,5 +1,3 @@
-import { IoMenuOutline } from "react-icons/io5";
-
 export default function HeaderLogin() {
   return (
     <header className="bg-white border-b border-gray-200 px-3 sm:px-5 md:px-8 py-4">
