@@ -8,7 +8,7 @@ import {
 import { FaUser, FaMoneyBillWave } from "react-icons/fa";
 import { FiLayers } from "react-icons/fi";
 import { MdOutlineRestaurantMenu } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 interface SidebarProps {
@@ -21,6 +21,7 @@ export default function SidebarAdmin({
   setSidebarOpen,
 }: SidebarProps) {
   const [user, setUser] = useState<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -29,6 +30,13 @@ export default function SidebarAdmin({
       setUser(JSON.parse(storedUser));
     }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    navigate("/login");
+  };
   return (
     <>
       {/* Overlay Mobile */}
@@ -155,7 +163,10 @@ export default function SidebarAdmin({
 
         {/* Logout */}
         <div className="p-4 border-t border-gray-700">
-          <button className="w-full flex items-center gap-3 hover:bg-gray-700 transition px-4 py-3 rounded-xl">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 hover:bg-gray-700 transition px-4 py-3 rounded-xl"
+          >
             <IoLogOutOutline className="text-xl" />
             Logout
           </button>
