@@ -1,4 +1,5 @@
 import { IoSearchOutline, IoMenuOutline } from "react-icons/io5";
+import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
@@ -7,6 +8,17 @@ interface HeaderProps {
 }
 
 export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const initial = user?.name?.charAt(0).toUpperCase();
   return (
     <header className="bg-white border-b border-gray-200 px-3 sm:px-5 md:px-8 py-4">
       <div className="flex items-center justify-between gap-3">
@@ -50,19 +62,6 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
                   Orders
                 </NavLink>
               </li>
-
-              {/* <li>
-                <NavLink
-                  to="/inventory"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-orange-500 border-b-2 border-orange-500 pb-1"
-                      : "hover:text-orange-500 pb-1"
-                  }
-                >
-                  Inventory
-                </NavLink>
-              </li> */}
             </ul>
           </nav>
         </div>
@@ -82,11 +81,16 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
 
           {/* Profile */}
           <div className="flex items-center gap-2 sm:gap-3 cursor-pointer">
-            <FaUserCircle className="text-3xl md:text-4xl text-gray-600" />
+            <div className="w-10 h-10 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold">
+              {initial}
+            </div>
 
             <div className="hidden sm:block">
-              <h2 className="font-semibold text-sm">Nama</h2>
-              <p className="text-xs text-gray-500">Role</p>
+              <h2 className="font-semibold text-sm">{user?.name}</h2>
+
+              <p className="text-xs text-gray-500 capitalize">
+                {user?.role?.name}
+              </p>
             </div>
           </div>
         </div>

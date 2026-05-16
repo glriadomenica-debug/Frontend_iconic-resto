@@ -34,7 +34,10 @@ export default function App() {
         url: "http://localhost:8000/api/auth/login",
         data: form,
       });
+      // localStorage.setItem("token", response.data.data.token);
       localStorage.setItem("token", response.data.data.token);
+
+      localStorage.setItem("user", JSON.stringify(response.data.data.user));
       toast.success("Login success");
       navigate("/dashboard"); // Redirect login ke dashboard kalau loginnya sukses
     } catch (error: any) {

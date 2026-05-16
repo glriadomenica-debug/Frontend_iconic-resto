@@ -9,6 +9,7 @@ import { FaUser, FaMoneyBillWave } from "react-icons/fa";
 import { FiLayers } from "react-icons/fi";
 import { MdOutlineRestaurantMenu } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -19,6 +20,15 @@ export default function SidebarAdmin({
   sidebarOpen,
   setSidebarOpen,
 }: SidebarProps) {
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
   return (
     <>
       {/* Overlay Mobile */}
@@ -55,8 +65,8 @@ export default function SidebarAdmin({
                   Iconic Self Order
                 </h1>
 
-                <p className="text-xs md:text-sm text-gray-400">
-                  Role yang login
+                <p className="text-xs md:text-sm text-gray-400 capitalize">
+                  {user?.role?.name}
                 </p>
               </div>
             </div>
