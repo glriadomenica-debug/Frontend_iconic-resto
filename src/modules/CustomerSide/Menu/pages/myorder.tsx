@@ -1,34 +1,49 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function MyOrdersPage() {
   const [orders, setOrders] = useState<any[]>([]);
 
-  useEffect(() => {
-    const storedOrders = JSON.parse(
-      localStorage.getItem("myOrders") || "[]",
-    );
+  const getCustomerToken = () => {
+    return localStorage.getItem("customer_token");
+  };
 
-    setOrders(storedOrders);
+  const fetchOrders = async () => {
+    try {
+      const token = getCustomerToken();
+
+      const res = await axios({
+        method: "GET",
+        url: `http://localhost:8000/api/my-orders/${token}`,
+      });
+
+      setOrders(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+
+    const interval = setInterval(() => {
+      fetchOrders();
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="p-4 lg:p-6">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">
-        My Orders
-      </h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">My Orders</h1>
 
       <div className="space-y-5">
         {orders.length > 0 ? (
           orders.map((order) => (
-            <div
-              key={order.id}
-              className="bg-white rounded-2xl shadow-md p-5"
-            >
+            <div key={order.id} className="bg-white rounded-2xl shadow-md p-5">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h2 className="font-bold text-lg">
-                    Order #{order.id}
-                  </h2>
+                  <h2 className="font-bold text-lg">Order #{order.id}</h2>
 
                   <p className="text-sm text-gray-500">
                     Table {order.table_number}
@@ -68,8 +83,7 @@ export default function MyOrdersPage() {
                     </div>
 
                     <h3 className="font-semibold text-orange-500">
-                      Rp{" "}
-                      {(item.subtotal * 1000).toLocaleString("id-ID")}
+                      Rp {(item.subtotal * 1000).toLocaleString("id-ID")}
                     </h3>
                   </div>
                 ))}
@@ -79,8 +93,7 @@ export default function MyOrdersPage() {
                 <h2 className="font-bold text-lg">Total</h2>
 
                 <h2 className="font-bold text-xl text-orange-500">
-                  Rp{" "}
-                  {(order.total_price * 1000).toLocaleString("id-ID")}
+                  Rp {(order.total_price * 1000).toLocaleString("id-ID")}
                 </h2>
               </div>
             </div>

@@ -14,8 +14,8 @@ export default function HeaderCustomer({ cartCount = 0 }: HeaderCustomerProps) {
             DineFlow
           </h1>
 
-          <nav className="hidden md:block">
-            <ul className="flex items-center gap-8 font-medium text-gray-600">
+          <nav className="flex">
+            <ul className="flex items-center gap-4 sm:gap-6 md:gap-8 font-medium text-gray-600 text-sm sm:text-base">
               <li>
                 <NavLink
                   to="/"

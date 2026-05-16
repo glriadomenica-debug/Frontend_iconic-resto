@@ -24,6 +24,18 @@ export default function MenuPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  const getCustomerToken = () => {
+    let token = localStorage.getItem("customer_token");
+
+    if (!token) {
+      token = crypto.randomUUID();
+
+      localStorage.setItem("customer_token", token);
+    }
+
+    return token;
+  };
+
   // FETCH PRODUCT
   const fetchProducts = async (page = 1) => {
     try {
@@ -100,10 +112,10 @@ export default function MenuPage() {
 
     try {
       const payload = {
-        user_id: 1,
         customer_name: customerName,
         table_number: tableNumber,
         payment_method: paymentMethod,
+        customer_token: getCustomerToken(),
 
         items: cart.map((i) => ({
           product_id: i.id,
@@ -158,26 +170,26 @@ export default function MenuPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-3 gap-5">
             {products.map((p) => (
               <div
                 key={p.id}
                 className="border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition"
               >
-                <h2 className="font-bold text-lg text-gray-800">
+                <h2 className="font-bold text-sm text-gray-800">
                   {p.product_name}
                 </h2>
 
-                <p className="text-orange-500 font-semibold mt-2">
+                <p className="text-orange-500  text-xs font-semibold mt-2">
                   Rp. {(p.price * 1000).toLocaleString("id-ID")}
                 </p>
 
-                <p className="text-sm text-gray-500 mt-1">Stock : {p.stock}</p>
+                <p className="text-xs text-gray-500 mt-1">Stock : {p.stock}</p>
 
                 <button
                   onClick={() => addToCart(p)}
                   disabled={p.stock === 0}
-                  className={`w-full py-2 rounded-xl mt-4 transition text-white ${
+                  className={`w-full py-1 rounded-xl mt-4 transition text-white text-[10px] ${
                     p.stock === 0
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-orange-500 hover:bg-orange-600"
