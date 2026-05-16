@@ -4,6 +4,8 @@ import MenuPage from "./pages/MenuPage";
 import MyOrderPage from "./pages/MyOrderPage";
 import Staff from "./Staff/pages/StaffList";
 import EditStaff from "./Staff/pages/EditStaff";
+import UserList from "./Users/pages/UserList";
+import EditUser from "./Users/pages/EditUser";
 
 const AdminRoutes = [
   {
@@ -63,6 +65,26 @@ const AdminRoutes = [
       {
         index: true,
         element: <EditStaff />,
+      },
+    ],
+  },
+  {
+    path: "/admin/user",
+    element: <LayoutAdmin />,
+    children: [
+      {
+        index: true,
+        element: <UserList />,
+      },
+    ],
+  },
+  {
+    path: "/admin/user/edit/:id",
+    element: <LayoutAdmin />,
+    children: [
+      {
+        index: true,
+        element: <EditUser />,
       },
     ],
   },
