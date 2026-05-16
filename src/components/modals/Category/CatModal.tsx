@@ -15,8 +15,9 @@ export default function Modal({
 }: CategoryModal) {
   return (
     <div
-      className={`fixed inset-0 flex items-center justify-center z-50 ${openModal ? "" : "hidden"
-        }`}
+      className={`fixed inset-0 flex items-center justify-center z-50 ${
+        openModal ? "" : "hidden"
+      }`}
       onClick={() => setOpenModal(false)}
     >
       <div className="absolute inset-0 bg-black/50"></div>
@@ -26,11 +27,16 @@ export default function Modal({
         className="relative bg-white p-6 rounded-lg w-96 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-lg font-bold mb-4 text-blue-900">
-          {title}
-        </h2>
-        <label htmlFor="category_name" className="text-blue-800">Category Name</label>
-        <input type="text" name="category_name" placeholder="Category Name" onChange={handleChange} className="w-full border p-2 rounded mb-4"
+        <h2 className="text-lg font-bold mb-4 text-blue-900">{title}</h2>
+        <label htmlFor="category_name" className="text-blue-800">
+          Category Name
+        </label>
+        <input
+          type="text"
+          name="category_name"
+          placeholder="Category Name"
+          onChange={handleChange}
+          className="w-full border p-2 rounded mb-4"
         />
 
         <div className="flex justify-end gap-2">
