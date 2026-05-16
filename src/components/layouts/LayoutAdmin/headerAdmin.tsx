@@ -1,6 +1,5 @@
 import { IoSearchOutline, IoMenuOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 interface HeaderProps {
