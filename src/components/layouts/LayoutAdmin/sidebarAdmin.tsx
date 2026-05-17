@@ -10,6 +10,7 @@ import { FiLayers } from "react-icons/fi";
 import { MdOutlineRestaurantMenu } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { CgNotes } from "react-icons/cg";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -86,7 +87,7 @@ export default function SidebarAdmin({
           </div>
 
           {/* Menu */}
-          <nav className="mt-6 px-4">
+          <nav className="mt-2 px-4">
             <ul className="space-y-2">
               <li>
                 <NavLink
@@ -141,6 +142,20 @@ export default function SidebarAdmin({
                 >
                   <FaMoneyBillWave className="text-xl" />
                   Transactions
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/liveOrder"
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
+                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
+                    }`
+                  }
+                >
+                  <CgNotes className="text-xl" />
+                  Live Order
                 </NavLink>
               </li>
 

@@ -54,15 +54,29 @@ export default function MyOrdersPage() {
                   className={`px-4 py-1 rounded-full text-sm font-semibold ${
                     order.status === "pending"
                       ? "bg-yellow-100 text-yellow-700"
-                      : order.status === "process"
+                      : order.status === "cooking"
                         ? "bg-blue-100 text-blue-700"
                         : order.status === "served"
                           ? "bg-green-100 text-green-700"
-                          : "bg-gray-100 text-gray-700"
+                          : order.status === "paid"
+                            ? "bg-emerald-100 text-emerald-700"
+                            : "bg-gray-100 text-gray-700"
                   }`}
                 >
                   {order.status}
                 </span>
+                <p className="text-sm text-gray-500 mt-1">
+                  Payment :
+                  <span
+                    className={`font-semibold ml-1 ${
+                      order.status === "paid"
+                        ? "text-green-600"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {order.status === "paid" ? "Paid" : "Unpaid"}
+                  </span>
+                </p>
               </div>
 
               <div className="space-y-3">

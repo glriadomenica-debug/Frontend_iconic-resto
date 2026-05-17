@@ -6,6 +6,7 @@ import Staff from "./Staff/pages/StaffList";
 import EditStaff from "./Staff/pages/EditStaff";
 import UserList from "./Users/pages/UserList";
 import EditUser from "./Users/pages/EditUser";
+import LiveOrderPage from "./LiveOrder/pages/liveorderList";
 
 const AdminRoutes = [
   {
@@ -85,6 +86,16 @@ const AdminRoutes = [
       {
         index: true,
         element: <EditUser />,
+      },
+    ],
+  },
+  {
+    path: "/liveOrder",
+    element: <LayoutAdmin />,
+    children: [
+      {
+        index: true,
+        element: <LiveOrderPage />,
       },
     ],
   },

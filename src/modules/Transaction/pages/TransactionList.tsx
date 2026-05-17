@@ -88,6 +88,25 @@ export default function TransactionList() {
     }
   };
 
+  const updatePaid = async (id: number) => {
+    try {
+      await axios({
+        method: "PUT",
+        url: `http://localhost:8000/api/transactions/${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          status: "paid",
+        },
+      });
+
+      fetchTransactions();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   const handleUpdateStatus = async () => {
     try {
       await axios.put(
@@ -183,11 +202,15 @@ export default function TransactionList() {
                     <td className="px-4 py-4">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          t.status === "paid"
-                            ? "bg-green-100 text-green-700"
-                            : t.status === "pending"
-                              ? "bg-yellow-100 text-yellow-700"
-                              : "bg-red-100 text-red-700"
+                          t.status === "pending"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : t.status === "cooking"
+                              ? "bg-blue-100 text-blue-700"
+                              : t.status === "served"
+                                ? "bg-purple-100 text-purple-700"
+                                : t.status === "paid"
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-gray-100 text-gray-700"
                         }`}
                       >
                         {t.status}
@@ -205,6 +228,13 @@ export default function TransactionList() {
                           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm transition cursor-pointer"
                         >
                           Detail
+                        </button>
+
+                        <button
+                          onClick={() => updatePaid(t.id)}
+                          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm transition cursor-pointer"
+                        >
+                          Paid
                         </button>
 
                         <button

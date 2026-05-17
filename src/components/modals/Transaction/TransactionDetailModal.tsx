@@ -12,8 +12,8 @@ export default function TransactionDetailModal({ open, setOpen, data }: Props) {
       <div className="bg-white w-[450px] p-6 rounded">
         <h1 className="text-xl font-bold mb-2">Transaction #{data.id}</h1>
 
-        <p>Customer: {data.customer_name}</p>
-        <p>Customer: {data.table_number}</p>
+        <p>Customer Name: {data.customer_name}</p>
+        <p>Table Number: {data.table_number}</p>
         <p>Status: {data.status}</p>
         <p>Total: Rp {data.total_price.toLocaleString("id-ID")}</p>
 

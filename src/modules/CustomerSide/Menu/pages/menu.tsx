@@ -66,7 +66,6 @@ export default function MenuPage() {
           alert("Stock limit reached!");
           return prev;
         }
-
         return prev.map((i) =>
           i.id === product.id ? { ...i, qty: i.qty + 1 } : i,
         );
