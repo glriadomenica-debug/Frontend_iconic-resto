@@ -6,6 +6,7 @@ import productRoutes from "../modules/Products/route";
 import MenuRoutes from "../modules/CustomerSide/Menu/route";
 import TransactionRoute from "../modules/Transaction/route";
 import PaymentConfirmRoute from "../modules/CashierSide/PaymentConfirmation/route";
+import KitchenRoutes from "../modules/KitchenSide/route";
 
 export default function AppRoutes() {
   return useRoutes([
@@ -16,5 +17,6 @@ export default function AppRoutes() {
     ...MenuRoutes,
     ...TransactionRoute,
     ...PaymentConfirmRoute,
+    ...KitchenRoutes,
   ]);
 }
