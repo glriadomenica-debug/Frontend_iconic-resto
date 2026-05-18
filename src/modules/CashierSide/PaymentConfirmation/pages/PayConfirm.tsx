@@ -13,12 +13,11 @@ interface Transaction {
 
 export default function PaymentConfirmPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [filterStatus, setFilterStatus] = useState("all");
 
   const token = localStorage.getItem("token");
 
-  const user = JSON.parse(
-    localStorage.getItem("user") || "{}",
-  );
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const fetchTransactions = async () => {
     try {
@@ -45,10 +44,19 @@ export default function PaymentConfirmPage() {
     fetchTransactions();
   }, []);
 
-  const verifyPayment = async (
-    id: number,
-    paymentMethod: string,
-  ) => {
+  const filteredTransactions = transactions.filter((item) => {
+    if (filterStatus === "paid") {
+      return item.status === "paid";
+    }
+
+    if (filterStatus === "unpaid") {
+      return item.status !== "paid";
+    }
+
+    return item.status !== "cancelled";
+  });
+
+  const verifyPayment = async (id: number, paymentMethod: string) => {
     try {
       await axios({
         method: "POST",
@@ -72,34 +80,45 @@ export default function PaymentConfirmPage() {
 
   return (
     <div className="p-6 min-h-screen bg-gray-100">
-      {/* HEADER */}
+      {/* Filter Payment*/}
+      <div className="mb-6 flex justify-end items-center gap-3">
+        <label className="text-sm font-medium text-gray-700">
+          Filter Payment
+        </label>
+
+        <select
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className="border border-gray-300 rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-orange-400"
+        >
+          <option value="all">All</option>
+
+          <option value="paid">Already Paid</option>
+
+          <option value="unpaid">Not Paid Yet</option>
+        </select>
+      </div>
+
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-800">
           Payment Verification
         </h1>
 
-        <p className="text-gray-500">
-          Verify customer payments
-        </p>
+        <p className="text-gray-500">Verify customer payments</p>
       </div>
 
       {/* CARD */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         {transactions.length > 0 ? (
-          transactions.map((t) => (
-            <div
-              key={t.id}
-              className="bg-white rounded-2xl shadow-md p-5"
-            >
+          filteredTransactions.map((t) => (
+            <div key={t.id} className="bg-white rounded-2xl shadow-md p-5">
               {/* CUSTOMER */}
               <div className="mb-4">
                 <h2 className="text-xl font-bold text-gray-800">
                   {t.customer_name}
                 </h2>
 
-                <p className="text-gray-500">
-                  Table {t.table_number}
-                </p>
+                <p className="text-gray-500">Table {t.table_number}</p>
               </div>
 
               {/* INFO */}
@@ -108,19 +127,14 @@ export default function PaymentConfirmPage() {
                   <span>Total</span>
 
                   <span className="font-semibold text-orange-500">
-                    Rp.{" "}
-                    {(t.total_price * 1000).toLocaleString(
-                      "id-ID",
-                    )}
+                    Rp. {(t.total_price * 1000).toLocaleString("id-ID")}
                   </span>
                 </div>
 
                 <div className="flex justify-between">
                   <span>Payment Type</span>
 
-                  <span className="capitalize">
-                    {t.payment_method}
-                  </span>
+                  <span className="capitalize">{t.payment_method}</span>
                 </div>
 
                 <div className="flex justify-between">
@@ -145,9 +159,7 @@ export default function PaymentConfirmPage() {
                   <span>Date</span>
 
                   <span>
-                    {new Date(
-                      t.created_at,
-                    ).toLocaleDateString("id-ID")}
+                    {new Date(t.created_at).toLocaleDateString("id-ID")}
                   </span>
                 </div>
               </div>
@@ -155,12 +167,7 @@ export default function PaymentConfirmPage() {
               {/* BUTTON */}
               {t.status !== "paid" ? (
                 <button
-                  onClick={() =>
-                    verifyPayment(
-                      t.id,
-                      t.payment_method,
-                    )
-                  }
+                  onClick={() => verifyPayment(t.id, t.payment_method)}
                   className="w-full mt-5 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl transition"
                 >
                   Verify Payment
