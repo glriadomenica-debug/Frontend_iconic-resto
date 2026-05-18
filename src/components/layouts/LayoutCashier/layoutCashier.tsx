@@ -1,5 +1,5 @@
-import Header from "./headerAdmin";
-import Sidebar from "./sidebarAdmin";
+import Header from "./headerCashier";
+// import Sidebar from "./sidebarCashier";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -19,7 +19,7 @@ export default function LayoutAdmin() {
   return (
     <div className="flex h-screen bg-[#f7f4f2] overflow-hidden">
       {/* Sidebar */}
-      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      {/* <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
 
       {/* Content */}
       <div className="flex-1 flex flex-col overflow-hidden">

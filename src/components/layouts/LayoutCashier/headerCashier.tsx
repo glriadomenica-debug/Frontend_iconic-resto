@@ -38,7 +38,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
             <ul className="flex items-center gap-6 text-gray-600 font-medium">
               <li>
                 <NavLink
-                  to="/admin/menu"
+                  to="/cashier/menu"
                   className={({ isActive }) =>
                     isActive
                       ? "text-orange-500 border-b-2 border-orange-500 pb-1"
@@ -51,7 +51,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
 
               <li>
                 <NavLink
-                  to="/admin/orders"
+                  to="/cashier/orders"
                   className={({ isActive }) =>
                     isActive
                       ? "text-orange-500 border-b-2 border-orange-500 pb-1"
@@ -64,7 +64,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
 
               <li>
                 <NavLink
-                  to="/payment-verification"
+                  to="/cashier/payment-verification"
                   className={({ isActive }) =>
                     isActive
                       ? "text-orange-500 border-b-2 border-orange-500 pb-1"
@@ -72,19 +72,6 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
                   }
                 >
                   Payment
-                </NavLink>
-              </li>
-
-              <li>
-                <NavLink
-                  to="/admin/user"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-orange-500 border-b-2 border-orange-500 pb-1"
-                      : "hover:text-orange-500 pb-1"
-                  }
-                >
-                  User
                 </NavLink>
               </li>
             </ul>
