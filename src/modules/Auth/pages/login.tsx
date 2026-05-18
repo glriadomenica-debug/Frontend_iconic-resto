@@ -34,23 +34,33 @@ export default function App() {
         url: "http://localhost:8000/api/auth/login",
         data: form,
       });
-      localStorage.setItem("token", response.data.data.token);
-
+      const { token, user } = response.data.data;
+      localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
-      const user = response.data.data.user;
+
       toast.success("Login success");
-      if (user.role?.name === "admin") {
-        navigate("/admin/dashboard");
-      } else if (user.role?.name === "cashier") {
-        navigate("/cashier/menu");
-      } else if (user.role?.name === "kitchen") {
-        navigate("/kitchen/live-order");
-      } else {
-        navigate("/");
+
+      const role = user.role?.name?.toLowerCase()?.trim();
+      switch (role) {
+        case "admin":
+          navigate("/admin/dashboard");
+          break;
+
+        case "kasir":
+          navigate("/cashier/menu");
+          break;
+
+        case "dapur":
+          navigate("/kitchen/live-order");
+          break;
+
+        default:
+          navigate("/");
+          break;
       }
     } catch (error: any) {
       console.log(error, "error");
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || "Login failed!");
     } finally {
       setLoading(false);
     }

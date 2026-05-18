@@ -12,7 +12,8 @@ export default function LiveOrder() {
     try {
       const res = await axios({
         method: "GET",
-        url: "http://localhost:8000/api/transactions",
+        url: "http://localhost:8000/api/kitchen/orders",
+        // url: "http://localhost:8000/api/transactions",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -98,7 +99,6 @@ export default function LiveOrder() {
               key={order.id}
               className="bg-white rounded-2xl shadow-md p-5 border-l-8 border-orange-500"
             >
-              {/* HEADER */}
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h1 className="font-bold text-xl text-gray-800">
@@ -119,7 +119,6 @@ export default function LiveOrder() {
                 </span>
               </div>
 
-              {/* ITEMS */}
               <div className="space-y-3">
                 {order.transaction_details?.map((item: any) => (
                   <div
@@ -137,7 +136,6 @@ export default function LiveOrder() {
                 ))}
               </div>
 
-              {/* ACTION */}
               <div className="mt-5">
                 {order.status === "pending" ? (
                   <button

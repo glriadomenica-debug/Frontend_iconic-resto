@@ -1,19 +1,7 @@
 import Header from "./headerCashier";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 
 export default function LayoutCashier() {
-  const navigate = useNavigate();
-
-  //Proteksi halaman (kalau belum login otomatis mengembalikkan ke /login)
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      navigate("/login");
-    }
-  }, []);
-
   return (
     <div className="min-h-screen bg-[#f7f4f2] flex overflow-hidden">
       <div className="flex-1 flex flex-col min-w-0">

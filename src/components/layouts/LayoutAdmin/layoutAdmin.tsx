@@ -1,21 +1,10 @@
 import Header from "./headerAdmin";
 import Sidebar from "./sidebarAdmin";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { useState } from "react";
 
 export default function LayoutAdmin() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const navigate = useNavigate();
-
-  //Proteksi halaman (kalau belum login otomatis mengembalikkan ke /login)
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      navigate("/login");
-    }
-  }, []);
-
   return (
     <div className="flex h-screen bg-[#f7f4f2] overflow-hidden">
       {/* Sidebar */}

@@ -5,3 +5,8 @@ export { default as StaffList } from "./Staff/pages/StaffList";
 export { default as UserList } from "./Users/pages/UserList";
 export { default as LiveOrderList } from "./LiveOrder/pages/liveorderList";
 export { default as PayVerif } from "./PaymentVerification/pages/PayVerif";
+export { default as TransactionList } from "./Transaction/pages/TransactionList";
+export { default as Category } from "./Categories/pages/CategoryList";
+export { default as EditCat } from "./Categories/pages/EditCategory";
+export { default as ListProduct } from "./Products/pages/ProductList";
+export { default as EditProduct } from "./Products/pages/EditProduct";

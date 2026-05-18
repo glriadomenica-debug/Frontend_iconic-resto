@@ -1,19 +1,7 @@
 import Header from "./headerKitchen";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useEffect} from "react";
+import { Outlet } from "react-router-dom";
 
 export default function LayoutAdmin() {
-  const navigate = useNavigate();
-
-  //Proteksi halaman (kalau belum login otomatis mengembalikkan ke /login)
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      navigate("/login");
-    }
-  }, []);
-
   return (
     <div className="min-h-screen bg-[#f7f4f2] flex overflow-hidden">
       {/* Content */}

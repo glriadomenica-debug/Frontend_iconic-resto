@@ -8,11 +8,21 @@ import UserList from "./Users/pages/UserList";
 import EditUser from "./Users/pages/EditUser";
 import LiveOrderPage from "./LiveOrder/pages/liveorderList";
 import PayVerif from "./PaymentVerification/pages/PayVerif";
+import TransactionList from "./Transaction/pages/TransactionList";
+import CatList from "./Categories/pages/CategoryList";
+import EditCat from "./Categories/pages/EditCategory";
+import ProdList from "./Products/pages/ProductList";
+import EditProd from "./Products/pages/EditProduct";
+import ProtectedRoute from "../../components/ProtectedRoute";
 
 const AdminRoutes = [
   {
-    path: "/dashboard",
-    element: <LayoutAdmin />,
+    path: "/admin/dashboard",
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -22,7 +32,11 @@ const AdminRoutes = [
   },
   {
     path: "/admin/menu",
-    element: <LayoutAdmin />,
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -32,7 +46,11 @@ const AdminRoutes = [
   },
   {
     path: "/admin/orders",
-    element: <LayoutAdmin />,
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -42,7 +60,11 @@ const AdminRoutes = [
   },
   {
     path: "/admin/orders",
-    element: <LayoutAdmin />,
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -52,7 +74,11 @@ const AdminRoutes = [
   },
   {
     path: "/staff",
-    element: <LayoutAdmin />,
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -62,7 +88,11 @@ const AdminRoutes = [
   },
   {
     path: "/staff/edit/:id",
-    element: <LayoutAdmin />,
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -72,7 +102,11 @@ const AdminRoutes = [
   },
   {
     path: "/admin/user",
-    element: <LayoutAdmin />,
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -82,7 +116,11 @@ const AdminRoutes = [
   },
   {
     path: "/admin/user/edit/:id",
-    element: <LayoutAdmin />,
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -91,8 +129,12 @@ const AdminRoutes = [
     ],
   },
   {
-    path: "/liveOrder",
-    element: <LayoutAdmin />,
+    path: "/admin/liveOrder",
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -102,11 +144,85 @@ const AdminRoutes = [
   },
   {
     path: "/admin/payment-verification",
-    element: <LayoutAdmin />,
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
         element: <PayVerif />,
+      },
+    ],
+  },
+  {
+    path: "/transactions",
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <TransactionList />,
+      },
+    ],
+  },
+  {
+    path: "/categories",
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <CatList />,
+      },
+    ],
+  },
+  {
+    path: "/categories/edit/:id",
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <EditCat />,
+      },
+    ],
+  },
+  {
+    path: "/products",
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <ProdList />,
+      },
+    ],
+  },
+  {
+    path: "/products/edit/:id",
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <EditProd />,
       },
     ],
   },
