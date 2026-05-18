@@ -1,1 +1,1 @@
-export { default as PayConfirmation } from "./pages/PayConfirm";
+// export { default as PayConfirmation } from "./pages/PayConfirm";

@@ -7,6 +7,7 @@ import EditStaff from "./Staff/pages/EditStaff";
 import UserList from "./Users/pages/UserList";
 import EditUser from "./Users/pages/EditUser";
 import LiveOrderPage from "./LiveOrder/pages/liveorderList";
+import PayVerif from "./PaymentVerification/pages/PayVerif";
 
 const AdminRoutes = [
   {
@@ -96,6 +97,16 @@ const AdminRoutes = [
       {
         index: true,
         element: <LiveOrderPage />,
+      },
+    ],
+  },
+  {
+    path: "/admin/payment-verification",
+    element: <LayoutAdmin />,
+    children: [
+      {
+        index: true,
+        element: <PayVerif />,
       },
     ],
   },
