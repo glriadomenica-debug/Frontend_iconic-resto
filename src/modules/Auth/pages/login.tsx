@@ -34,12 +34,20 @@ export default function App() {
         url: "http://localhost:8000/api/auth/login",
         data: form,
       });
-      // localStorage.setItem("token", response.data.data.token);
       localStorage.setItem("token", response.data.data.token);
 
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
+      const user = response.data.data.user;
       toast.success("Login success");
-      navigate("/dashboard"); // Redirect login ke dashboard kalau loginnya sukses
+      if (user.role?.name === "admin") {
+        navigate("/admin/dashboard");
+      } else if (user.role?.name === "cashier") {
+        navigate("/cashier/menu");
+      } else if (user.role?.name === "kitchen") {
+        navigate("/kitchen/live-order");
+      } else {
+        navigate("/");
+      }
     } catch (error: any) {
       console.log(error, "error");
       toast.error(error.response.data.message);
