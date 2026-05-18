@@ -16,7 +16,7 @@ interface CartItem extends Product {
 export default function MenuPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [paymentMethod, setPaymentMethod] = useState("cashier_payment");
   const [customerName, setCustomerName] = useState("");
   const [tableNumber, setTableNumber] = useState("");
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
@@ -318,9 +318,9 @@ export default function MenuPage() {
               onChange={(e) => setPaymentMethod(e.target.value)}
               className="border border-gray-300 rounded-xl p-3 w-full mt-2 outline-none focus:ring-2 focus:ring-orange-400"
             >
-              <option value="cash">Cash</option>
-              <option value="qris">QRIS</option>
-              <option value="card">Card</option>
+              <option value="cashier_payment">Cashier Payment</option>
+
+              <option value="self_payment">Self Payment</option>
             </select>
           </div>
 

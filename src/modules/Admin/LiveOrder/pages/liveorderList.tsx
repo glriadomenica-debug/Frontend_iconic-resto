@@ -67,7 +67,7 @@ export default function LiveOrder() {
           Authorization: `Bearer ${token}`,
         },
         data: {
-          status: "served",
+          status: "ready",
         },
       });
 

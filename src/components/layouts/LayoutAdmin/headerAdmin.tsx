@@ -64,7 +64,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
 
               <li>
                 <NavLink
-                  to="/admin/payment"
+                  to="/payment-verification"
                   className={({ isActive }) =>
                     isActive
                       ? "text-orange-500 border-b-2 border-orange-500 pb-1"
