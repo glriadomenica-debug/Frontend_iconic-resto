@@ -20,9 +20,9 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
   const initial = user?.name?.charAt(0).toUpperCase();
   return (
     <header className="bg-white border-b border-gray-200 px-3 sm:px-5 md:px-8 py-4">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center justify-between gap-3 w-full">
         {/* Left */}
-        <div className="flex items-center gap-3 md:gap-8 flex-1">
+        <div className="flex items-center gap-3 lg:gap-8 min-w-0">
           {/* Menu Mobile */}
           <button className="lg:hidden" onClick={() => setSidebarOpen(true)}>
             <IoMenuOutline className="text-3xl text-gray-700" />
@@ -34,7 +34,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
           </h1>
 
           {/* Nav Desktop */}
-          <nav className="hidden md:block">
+          <nav className="hidden lg:block">
             <ul className="flex items-center gap-6 text-gray-600 font-medium">
               <li>
                 <NavLink
@@ -92,9 +92,9 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
         </div>
 
         {/* Right */}
-        <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 shrink-0">
           {/* Search */}
-          <div className="hidden sm:flex items-center bg-gray-100 px-3 py-2 rounded-xl w-[180px] md:w-[250px]">
+          <div className="hidden md:flex items-center bg-gray-100 px-3 py-2 rounded-xl w-[160px] lg:w-[250px]">
             <IoSearchOutline className="text-gray-500" />
 
             <input
@@ -110,7 +110,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
               {initial}
             </div>
 
-            <div className="hidden sm:block">
+            <div className="hidden lg:block">
               <h2 className="font-semibold text-sm">{user?.name}</h2>
 
               <p className="text-xs text-gray-500 capitalize">
