@@ -1,11 +1,21 @@
 import { IoSearchOutline, IoCartOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import { useState } from "react";
 
 interface HeaderCustomerProps {
   cartCount?: number;
+  onSearch?: (value: string) => void;
 }
 
-export default function HeaderCustomer({ cartCount = 0 }: HeaderCustomerProps) {
+export default function HeaderCustomer({
+  cartCount = 0,
+  onSearch,
+}: HeaderCustomerProps) {
+  const [search, setSearch] = useState("");
+  const handleSearch = (value: string) => {
+    setSearch(value);
+    onSearch?.(value);
+  };
   return (
     <header className="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-10 py-4 sticky top-0 z-50">
       <div className="flex items-center justify-between gap-4">
@@ -45,26 +55,28 @@ export default function HeaderCustomer({ cartCount = 0 }: HeaderCustomerProps) {
           </nav>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center bg-gray-100 px-4 py-2 rounded-2xl w-[180px] md:w-[260px]">
             <IoSearchOutline className="text-gray-500 text-lg" />
 
             <input
               type="text"
               placeholder="Search menu..."
+              value={search}
+              onChange={(e) => handleSearch(e.target.value)}
               className="bg-transparent outline-none ml-2 w-full text-sm"
             />
           </div>
 
-          <button className="relative bg-orange-500 hover:bg-orange-600 transition text-white p-3 rounded-2xl">
+          <button className="relative bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-2xl">
             <IoCartOutline className="text-2xl" />
             {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-semibold w-5 h-5 flex items-center justify-center rounded-full">
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                 {cartCount}
               </span>
             )}
           </button>
-        </div>
+        </div> */}
       </div>
     </header>
   );

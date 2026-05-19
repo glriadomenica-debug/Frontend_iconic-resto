@@ -30,7 +30,7 @@ export default function PaymentVerificationPage() {
       });
 
       // tampilkan semua transaksi selain cancelled
-      const filtered = res.data.data.filter(
+      const filtered = res.data.data.data.filter(
         (item: Transaction) => item.status !== "cancelled",
       );
 

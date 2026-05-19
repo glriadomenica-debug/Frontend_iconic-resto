@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { FaCartPlus } from "react-icons/fa";
 import MenuDetailModal from "../../../../components/modals/CustomerSide/Menu/MenuDetailModal";
 
 interface Product {
@@ -7,6 +8,7 @@ interface Product {
   product_name: string;
   price: number;
   stock: number;
+  image: string;
 }
 
 interface CartItem extends Product {
@@ -173,29 +175,35 @@ export default function MenuPage() {
             {products.map((p) => (
               <div
                 key={p.id}
-                className="border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition"
+                className="relative h-64 rounded-2xl overflow-hidden shadow-md group"
               >
-                <h2 className="font-bold text-sm text-gray-800">
-                  {p.product_name}
-                </h2>
+                {/* Background Image */}
+                <img
+                  src={p.image}
+                  alt={p.product_name}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                />
 
-                <p className="text-orange-500  text-xs font-semibold mt-2">
-                  Rp. {(p.price * 1000).toLocaleString("id-ID")}
-                </p>
-
-                <p className="text-xs text-gray-500 mt-1">Stock : {p.stock}</p>
-
-                <button
-                  onClick={() => addToCart(p)}
-                  disabled={p.stock === 0}
-                  className={`w-full py-1 rounded-xl mt-4 transition text-white text-[10px] ${
-                    p.stock === 0
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-orange-500 hover:bg-orange-600"
-                  }`}
-                >
-                  {p.stock === 0 ? "Out Of Stock" : "Add To Cart"}
-                </button>
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/40" />
+                <div className="relative z-10 flex flex-col justify-end h-full p-4 text-white">
+                  <h2 className="font-bold text-lg">{p.product_name}</h2>
+                  <p className="text-sm mt-1">
+                    Rp. {(p.price * 1000).toLocaleString("id-ID")}
+                  </p>
+                  <p className="text-xs opacity-80 mt-1">Stock : {p.stock}</p>
+                  <button
+                    onClick={() => addToCart(p)}
+                    disabled={p.stock === 0}
+                    className={`mt-4 py-2 rounded-xl flex items-center justify-center transition ${
+                      p.stock === 0
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-orange-500 hover:bg-orange-600"
+                    }`}
+                  >
+                    <FaCartPlus className="text-white text-lg" />
+                  </button>
+                </div>
               </div>
             ))}
           </div>

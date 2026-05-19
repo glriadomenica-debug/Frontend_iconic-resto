@@ -182,7 +182,7 @@ export default function ListProduct() {
                     <td className="px-4 py-4 font-medium text-gray-700">
                       {product.stock}
                     </td>
-                    <td className="px-4 py-4 font-medium text-gray-700">
+                    <td className="px-4 py-4 font-medium text-gray-700 max-w-[200px] truncate">
                       {product.image}
                     </td>
 

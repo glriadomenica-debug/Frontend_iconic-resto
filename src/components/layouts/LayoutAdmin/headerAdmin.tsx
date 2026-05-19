@@ -93,8 +93,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
 
         {/* Right */}
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-          {/* Search */}
-          <div className="hidden md:flex items-center bg-gray-100 px-3 py-2 rounded-xl w-[160px] lg:w-[250px]">
+          {/* <div className="hidden md:flex items-center bg-gray-100 px-3 py-2 rounded-xl w-[160px] lg:w-[250px]">
             <IoSearchOutline className="text-gray-500" />
 
             <input
@@ -102,7 +101,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
               placeholder="Search..."
               className="bg-transparent outline-none ml-2 w-full text-sm"
             />
-          </div>
+          </div> */}
 
           {/* Profile */}
           <div className="flex items-center gap-2 sm:gap-3 cursor-pointer">
