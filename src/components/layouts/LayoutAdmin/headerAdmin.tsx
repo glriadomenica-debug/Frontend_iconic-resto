@@ -1,4 +1,4 @@
-import { IoSearchOutline, IoMenuOutline } from "react-icons/io5";
+import { IoMenuOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 

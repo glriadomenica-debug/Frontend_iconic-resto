@@ -35,7 +35,7 @@ interface RevenueChart {
 }
 
 export default function DashboardAnalytics() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [_transactions, setTransactions] = useState<Transaction[]>([]);
   const [topProducts, setTopProducts] = useState<ProductChart[]>([]);
   const [revenueData, setRevenueData] = useState<RevenueChart[]>([]);
   const [totalRevenue, setTotalRevenue] = useState<number>(0);
