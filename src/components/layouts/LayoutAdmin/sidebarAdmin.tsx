@@ -94,7 +94,7 @@ export default function SidebarAdmin({
                   to="/admin/dashboard"
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
+                      isActive ? "bg-orange-600" : "hover:bg-orange-600"
                     }`
                   }
                 >
@@ -108,7 +108,7 @@ export default function SidebarAdmin({
                   to="/categories"
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
+                      isActive ? "bg-orange-600" : "hover:bg-orange-600"
                     }`
                   }
                 >
@@ -122,7 +122,7 @@ export default function SidebarAdmin({
                   to="/products"
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
+                      isActive ? "bg-orange-600" : "hover:bg-orange-600"
                     }`
                   }
                 >
@@ -136,7 +136,7 @@ export default function SidebarAdmin({
                   to="/transactions"
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
+                      isActive ? "bg-orange-600" : "hover:bg-orange-600"
                     }`
                   }
                 >
@@ -150,7 +150,7 @@ export default function SidebarAdmin({
                   to="/admin/liveOrder"
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
+                      isActive ? "bg-orange-600" : "hover:bg-orange-600"
                     }`
                   }
                 >
@@ -164,7 +164,7 @@ export default function SidebarAdmin({
                   to="/staff"
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                      isActive ? "bg-orange-500" : "hover:bg-orange-600"
+                      isActive ? "bg-orange-600" : "hover:bg-orange-600"
                     }`
                   }
                 >

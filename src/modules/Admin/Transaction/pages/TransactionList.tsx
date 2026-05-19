@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { AiFillDelete } from "react-icons/ai";
+import { AiFillFile } from "react-icons/ai";
 import TransactionDetailModal from "../../../../components/modals/Transaction/TransactionDetailModal";
 import TransactionEditModal from "../../../../components/modals/Transaction/TransactionEditModal";
+import ReportModal from "../../../../components/modals/Transaction/ReportModal";
 
 interface Transaction {
   id: number;
@@ -25,6 +27,8 @@ export default function TransactionList() {
   const token = localStorage.getItem("token");
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
+  const [openReport, setOpenReport] = useState(false);
+  const [reportData, setReportData] = useState<any>(null);
 
   const fetchTransactions = async (pageNumber = 1) => {
     try {
@@ -131,10 +135,81 @@ export default function TransactionList() {
             : t,
         ),
       );
-
       setOpenEdit(false);
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const generateReport = async () => {
+    try {
+      const res = await axios({
+        method: "GET",
+        url: "http://localhost:8000/api/transactions",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const trx = res.data.data.data || [];
+
+      // total revenue
+      const totalRevenue = trx.reduce(
+        (sum: number, item: any) => sum + Number(item.total_price || 0),
+        0,
+      );
+
+      // payment method
+      const paymentMap: Record<string, number> = {};
+
+      trx.forEach((item: any) => {
+        const method = item.payment_method || "unknown";
+
+        if (paymentMap[method]) {
+          paymentMap[method] += 1;
+        } else {
+          paymentMap[method] = 1;
+        }
+      });
+
+      // revenue/day
+      const dailyRevenue: Record<string, number> = {};
+
+      trx.forEach((item: any) => {
+        const date = new Date(item.created_at).toLocaleDateString("id-ID");
+
+        if (dailyRevenue[date]) {
+          dailyRevenue[date] += Number(item.total_price || 0);
+        } else {
+          dailyRevenue[date] = Number(item.total_price || 0);
+        }
+      });
+
+      // products
+      const productMap: Record<string, number> = {};
+
+      trx.forEach((transaction: any) => {
+        transaction.transaction_details?.forEach((detail: any) => {
+          const productName = detail.product?.product_name;
+
+          if (!productName) return;
+
+          if (productMap[productName]) {
+            productMap[productName] += detail.qty;
+          } else {
+            productMap[productName] = detail.qty;
+          }
+        });
+      });
+      setReportData({
+        totalRevenue,
+        paymentMap,
+        dailyRevenue,
+        productMap,
+      });
+      setOpenReport(true);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -149,6 +224,14 @@ export default function TransactionList() {
             <p className="text-sm text-gray-500">
               Manage restaurant transactions
             </p>
+          </div>
+          <div>
+            <button
+              onClick={generateReport}
+              className="flex items-center justify-between gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-xl transition"
+            >
+              <AiFillFile/> Report
+            </button>
           </div>
         </div>
 
@@ -307,6 +390,12 @@ export default function TransactionList() {
         data={editData}
         setData={setEditData}
         onSave={handleUpdateStatus}
+      />
+
+      <ReportModal
+        open={openReport}
+        setOpen={setOpenReport}
+        reportData={reportData}
       />
     </>
   );

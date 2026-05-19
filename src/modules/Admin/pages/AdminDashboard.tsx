@@ -88,13 +88,13 @@ export default function DashboardAnalytics() {
           }
         });
       });
-
-      const formattedProducts = Object.keys(productMap).map((key) => ({
-        name: key,
-        total: productMap[key],
-      }));
-
-      console.log("TOP PRODUCTS :", formattedProducts);
+      const formattedProducts = Object.keys(productMap)
+        .map((key) => ({
+          name: key,
+          total: productMap[key],
+        }))
+        .sort((a, b) => b.total - a.total) // urut dari terbesar
+        .slice(0, 5); // ambil top 5
 
       setTopProducts(formattedProducts);
 

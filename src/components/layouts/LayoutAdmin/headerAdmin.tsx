@@ -34,7 +34,7 @@ export default function HeaderAdmin({ setSidebarOpen }: HeaderProps) {
           </h1>
 
           {/* Nav Desktop */}
-          <nav className="hidden lg:block">
+          <nav className="block">
             <ul className="flex items-center gap-6 text-gray-600 font-medium">
               <li>
                 <NavLink
