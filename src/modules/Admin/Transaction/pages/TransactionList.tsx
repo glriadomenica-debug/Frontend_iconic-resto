@@ -30,7 +30,7 @@ export default function TransactionList() {
   const [openReport, setOpenReport] = useState(false);
   const [reportData, setReportData] = useState<any>(null);
 
-  const fetchTransactions = async (pageNumber = 1) => {
+  const fetchTransactions = async (pageNumber : number) => {
     try {
       const res = await axios({
         method: "GET",
@@ -42,7 +42,6 @@ export default function TransactionList() {
 
       // setTransactions(res.data.data || []);
       setTransactions(res.data.data.data);
-      setPage(res.data.data.current_page);
       setLastPage(res.data.data.last_page);
     } catch (err) {
       console.log(err);
@@ -52,7 +51,7 @@ export default function TransactionList() {
   };
 
   useEffect(() => {
-    fetchTransactions();
+    fetchTransactions(page);
   }, [page]);
 
   const openDetail = async (id: number) => {
@@ -106,7 +105,7 @@ export default function TransactionList() {
         },
       });
 
-      fetchTransactions();
+      fetchTransactions(page);
     } catch (error) {
       console.log(error);
     }

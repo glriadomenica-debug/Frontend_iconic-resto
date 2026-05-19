@@ -108,7 +108,7 @@ export default function PaymentVerificationPage() {
       </div>
 
       {/* CARD */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-3 gap-5">
         {transactions.length > 0 ? (
           filteredTransactions.map((t) => (
             <div key={t.id} className="bg-white rounded-2xl shadow-md p-5">

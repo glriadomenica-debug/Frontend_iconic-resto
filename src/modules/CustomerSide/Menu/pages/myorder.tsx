@@ -38,7 +38,7 @@ export default function MyOrdersPage() {
     <div className="p-4 lg:p-6">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">My Orders</h1>
 
-      <div className="space-y-5">
+      <div className="space-y-5 grid grid-cols-1">
         {orders.length > 0 ? (
           orders.map((order) => (
             <div key={order.id} className="bg-white rounded-2xl shadow-md p-5">

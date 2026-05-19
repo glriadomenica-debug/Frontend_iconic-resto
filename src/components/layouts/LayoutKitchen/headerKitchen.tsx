@@ -66,7 +66,7 @@ export default function HeaderKitchen() {
             {/* logout */}
             <button
               onClick={handleLogout}
-              className=" rounded-xl hover:bg-red-600 text-black flex items-center justify-center transition"
+              className=" rounded-xl text-black hover:text-red-900  flex items-center justify-center transition"
             >
               <AiOutlineLogout />
             </button>
