@@ -1,4 +1,3 @@
-import { IoSearchOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AiOutlineLogout } from "react-icons/ai";

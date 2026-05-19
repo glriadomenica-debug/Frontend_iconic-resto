@@ -1,21 +1,11 @@
-import { IoSearchOutline, IoCartOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
 
 interface HeaderCustomerProps {
   cartCount?: number;
   onSearch?: (value: string) => void;
 }
 
-export default function HeaderCustomer({
-  cartCount = 0,
-  onSearch,
-}: HeaderCustomerProps) {
-  const [search, setSearch] = useState("");
-  const handleSearch = (value: string) => {
-    setSearch(value);
-    onSearch?.(value);
-  };
+export default function HeaderCustomer({}: HeaderCustomerProps) {
   return (
     <header className="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-10 py-4 sticky top-0 z-50">
       <div className="flex items-center justify-between gap-4">
