@@ -10,6 +10,7 @@ interface Staff {
   sex: string;
   phone_number: string;
   email: string;
+  position: string;
 }
 
 export default function EditCategory() {
@@ -22,6 +23,7 @@ export default function EditCategory() {
     sex: "",
     phone_number: "",
     email: "",
+    position: "",
   });
 
   const [formStaff, setFormStaff] = useState<any>({});
@@ -108,7 +110,7 @@ export default function EditCategory() {
         </div>
         <div className="py-2">
           <label htmlFor="sex" className="text-blue-900">
-            Sex
+            Gender
           </label>
 
           <select
@@ -117,7 +119,7 @@ export default function EditCategory() {
             onChange={handleChange}
             value={formStaff.sex}
           >
-            <option value="">Select Sex</option>
+            <option value="">Choose</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
@@ -138,7 +140,6 @@ export default function EditCategory() {
           />
         </div>
 
-        {/* Email */}
         <div className="py-2">
           <label htmlFor="email" className="text-blue-900">
             Email
@@ -150,6 +151,20 @@ export default function EditCategory() {
             className="w-full border border-gray-400 my-2 p-2 rounded"
             onChange={handleChange}
             value={formStaff.email}
+          />
+        </div>
+
+        <div className="py-2">
+          <label htmlFor="position" className="text-blue-900">
+            Position
+          </label>
+
+          <input
+            type="position"
+            name="position"
+            className="w-full border border-gray-400 my-2 p-2 rounded"
+            onChange={handleChange}
+            value={formStaff.position}
           />
         </div>
 

@@ -13,6 +13,7 @@ interface Staff {
   sex: string;
   phone_number: string;
   email: string;
+  position: string;
 }
 
 export default function ListStaff() {
@@ -29,6 +30,7 @@ export default function ListStaff() {
     sex: "",
     phone_number: "",
     email: "",
+    position: "",
   });
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const navigate = useNavigate();
@@ -81,6 +83,7 @@ export default function ListStaff() {
         sex: "",
         phone_number: "",
         email: "",
+        position: "",
       });
     } catch (error) {
       console.log(error);
@@ -127,9 +130,10 @@ export default function ListStaff() {
 
                 <th className="text-left px-4 py-3">First name</th>
                 <th className="text-left px-4 py-3">Last name</th>
-                <th className="text-left px-4 py-3">Sex</th>
+                <th className="text-left px-4 py-3">Gender</th>
                 <th className="text-left px-4 py-3">Phone number</th>
                 <th className="text-left px-4 py-3">Email</th>
+                <th className="text-left px-4 py-3">Position</th>
                 <th className="text-center px-4 py-3 rounded-r-xl">Action</th>
               </tr>
             </thead>
@@ -167,6 +171,10 @@ export default function ListStaff() {
 
                     <td className="px-4 py-4 font-medium text-gray-700">
                       {staff.email}
+                    </td>
+
+                    <td className="px-4 py-4 font-medium text-gray-700">
+                      {staff.position}
                     </td>
 
                     <td className="px-4 py-4">

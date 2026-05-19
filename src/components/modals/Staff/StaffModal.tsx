@@ -51,7 +51,7 @@ export default function Modal({
         />
 
         <label htmlFor="sex" className="text-blue-800">
-          Sex
+          Gender
         </label>
         <select
           name="sex"
@@ -60,7 +60,7 @@ export default function Modal({
           defaultValue=""
         >
           <option value="" disabled>
-            Select Sex
+            Choose Gender
           </option>
 
           <option value="male">Male</option>
@@ -85,6 +85,17 @@ export default function Modal({
           type="email"
           name="email"
           placeholder="Email"
+          onChange={handleChange}
+          className="w-full border p-2 rounded mb-4"
+        />
+
+        <label htmlFor="email" className="text-blue-800">
+          Position
+        </label>
+        <input
+          type="text"
+          name="position"
+          placeholder="Position"
           onChange={handleChange}
           className="w-full border p-2 rounded mb-4"
         />
