@@ -20,7 +20,7 @@ interface CartItem extends Product {
 }
 
 export default function MenuPage() {
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [paymentMethod, setPaymentMethod] = useState("cashier_payment");
   const [customerName, setCustomerName] = useState("");
@@ -28,8 +28,7 @@ export default function MenuPage() {
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
   const [openDetail, setOpenDetail] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [totalPages, setTotalPages] = useState(1);
 
   const getCustomerToken = () => {
     let token = localStorage.getItem("customer_token");
@@ -44,19 +43,15 @@ export default function MenuPage() {
   };
 
   // FETCH PRODUCT
-  const fetchProducts = async () => {
+  const fetchProducts = async (page = 1) => {
     try {
       const res = await axios({
         method: "GET",
-        url: `http://localhost:8000/api/products`,
-        // url: `http://localhost:8000/api/products?page=${page}`,
+        url: `http://localhost:8000/api/products?page=${page}`,
       });
-      const data = res.data.data || [];
 
-      setAllProducts(data);
-
-      // setProducts(res.data.data.data || []);
-      // setTotalPages(res.data.data.last_page);
+      setProducts(res.data.data.data || []);
+      setTotalPages(res.data.data.last_page);
       // setCurrentPage(res.data.data.current_page);
     } catch (error) {
       console.log(error);
@@ -64,12 +59,8 @@ export default function MenuPage() {
   };
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [search, selectedCategory]);
+    fetchProducts(currentPage);
+  }, [currentPage]);
 
   // add to cart
   const addToCart = (product: Product) => {
@@ -92,7 +83,7 @@ export default function MenuPage() {
 
   // ubah qty
   const changeQty = (id: number, qty: number) => {
-    const product = allProducts.find((p) => p.id === id);
+    const product = products.find((p) => p.id === id);
 
     if (!product) return;
 
@@ -170,8 +161,11 @@ export default function MenuPage() {
             Nama Customer : ${customerName}
             Nomor Meja : ${tableNumber}
             Total Payment : Rp. ${(total * 1000).toLocaleString("id-ID")}
+
             Mohon kirim nomor rekening pembayaran.
+
             Terima kasih 🙌`;
+
         window.open(
           `https://wa.me/${adminPhone}?text=${encodeURIComponent(message)}`,
           "_blank",
@@ -184,33 +178,6 @@ export default function MenuPage() {
       console.log(err);
     }
   };
-
-  const filteredProducts = allProducts.filter((p) => {
-    const matchSearch = p.product_name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    const matchCategory =
-      selectedCategory === "all" ||
-      p.category?.category_name === selectedCategory;
-
-    return matchSearch && matchCategory;
-  });
-
-  // ambil unique categ
-  const categories = [
-    "all",
-    ...new Set(
-      allProducts.map((p) => p.category?.category_name).filter(Boolean),
-    ),
-  ];
-  const itemsPerPage = 9;
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedProducts = filteredProducts.slice(
-    startIndex,
-    startIndex + itemsPerPage,
-  );
 
   return (
     <>
@@ -225,35 +192,10 @@ export default function MenuPage() {
             <p className="text-sm text-gray-500">
               Choose your favorite food & drinks
             </p>
-
-            {/* SEARCH + FILTER */}
-            <div className="flex flex-col sm:flex-row gap-3 mt-4">
-              {/* Search */}
-              <input
-                type="text"
-                placeholder="Search menu..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="border border-gray-300 rounded-xl px-4 py-3 w-full outline-none focus:ring-2 focus:ring-orange-400"
-              />
-
-              {/* Category */}
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-orange-400"
-              >
-                {categories.map((cat: any) => (
-                  <option key={cat} value={cat}>
-                    {cat === "all" ? "All Category" : cat}
-                  </option>
-                ))}
-              </select>
-            </div>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-3 gap-5">
-            {paginatedProducts.map((p) => (
+            {products.map((p) => (
               <div
                 key={p.id}
                 className="relative h-64 rounded-2xl overflow-hidden shadow-md group"

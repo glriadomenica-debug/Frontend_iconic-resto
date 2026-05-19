@@ -26,7 +26,7 @@ export default function HeaderKitchen() {
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
       <div className="px-3 sm:px-5 md:px-6 py-3">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center justify-between px-2 ">
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
             <h1 className="text-2xl font-bold text-orange-600">DineFlow</h1>
             <nav>
@@ -66,9 +66,9 @@ export default function HeaderKitchen() {
             {/* logout */}
             <button
               onClick={handleLogout}
-              className=" rounded-xl text-black hover:text-red-900  flex items-center justify-center transition"
+              className=" rounded-xl text-black hover:text-red-900 flex items-center justify-center transition"
             >
-              <AiOutlineLogout />
+              <AiOutlineLogout className="size-5" />
             </button>
           </div>
         </div>

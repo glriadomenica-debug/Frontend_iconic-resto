@@ -89,7 +89,7 @@ export default function HeaderCashier() {
                 onClick={handleLogout}
                 className=" rounded-xl text-black hover:text-red-200 bold flex items-center justify-center transition"
               >
-                <AiOutlineLogout />
+                <AiOutlineLogout className="size-5" />
               </button>
             </div>
           </div>
