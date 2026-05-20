@@ -196,6 +196,19 @@ Categories 1 : N Products
 ---
 
 ## 📸 System Overview
+Customer side :
+<img width="1807" height="870" alt="Screenshot (59)" src="https://github.com/user-attachments/assets/f2d7f075-312d-43aa-9610-e8faaea276ac" />
+
+Cashier side :
+<img width="1882" height="854" alt="Screenshot (62)" src="https://github.com/user-attachments/assets/9c309b6a-b33e-4a15-a445-72dd08e8ed0e" />
+
+kitchen side : 
+<img width="1881" height="879" alt="Screenshot (61)" src="https://github.com/user-attachments/assets/d053ac01-4278-4dd0-ae52-7cf4f99c99e3" />
+
+Admin side : 
+<img width="1879" height="873" alt="Screenshot (63)" src="https://github.com/user-attachments/assets/b998bf71-9337-416c-973a-c7e1b0dc5a23" />
+
+---
 
 ### Customer Self Order
 Customers can order directly from the menu without waiting for staff.
