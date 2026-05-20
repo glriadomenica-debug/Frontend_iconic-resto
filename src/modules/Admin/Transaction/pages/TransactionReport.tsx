@@ -42,8 +42,12 @@ export default function TransactionReport() {
     fetchReport();
   }, [filterType, selectedMonth]);
 
+  const paidTransactions = transactions.filter(
+    (item) => item.status === "paid",
+  );
+
   // Total revenue
-  const totalRevenue = transactions.reduce(
+  const totalRevenue = paidTransactions.reduce(
     (sum, item) => sum + Number(item.total_price || 0),
     0,
   );
@@ -51,9 +55,8 @@ export default function TransactionReport() {
   // Payment method
   const paymentMap: Record<string, number> = {};
 
-  transactions.forEach((item) => {
+  paidTransactions.forEach((item) => {
     const method = item.payment_method;
-
     paymentMap[method] = (paymentMap[method] || 0) + 1;
   });
 
@@ -65,7 +68,7 @@ export default function TransactionReport() {
   // Product sold
   const productMap: Record<string, number> = {};
 
-  transactions.forEach((trx) => {
+  paidTransactions.forEach((trx) => {
     trx.transaction_details?.forEach((detail: any) => {
       const productName = detail.product?.product_name;
 

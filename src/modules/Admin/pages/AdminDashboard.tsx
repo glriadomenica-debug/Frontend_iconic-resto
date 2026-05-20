@@ -48,7 +48,7 @@ export default function DashboardAnalytics() {
     try {
       const res = await axios({
         method: "GET",
-        url: "http://localhost:8000/api/transactions",
+        url: "http://localhost:8000/api/transactions/analytics",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -56,26 +56,26 @@ export default function DashboardAnalytics() {
 
       console.log("FULL RESPONSE :", res.data);
 
-      const fetchedTransactions =
-        res.data?.data?.data || res.data?.data || res.data || [];
-      console.log(fetchedTransactions[0]);
+      const fetchedTransactions = res.data.data || [];
 
-      console.log("TRANSACTIONS :", fetchedTransactions);
+      const paidTransactions = fetchedTransactions.filter(
+        (trx: any) => trx.status === "paid",
+      );
 
-      setTransactions(fetchedTransactions);
+      setTransactions(paidTransactions);
 
-      const revenue = fetchedTransactions.reduce(
+      const revenue = paidTransactions.reduce(
         (sum: number, item: Transaction) => sum + Number(item.total_price || 0),
         0,
       );
 
       setTotalRevenue(revenue);
 
-      setTotalTransactions(fetchedTransactions.length);
+      setTotalTransactions(paidTransactions.length);
 
       const productMap: Record<string, number> = {};
 
-      fetchedTransactions.forEach((trx: Transaction) => {
+      paidTransactions.forEach((trx: Transaction) => {
         trx.transaction_details?.forEach((detail) => {
           const productName = detail.product?.product_name;
 
@@ -100,7 +100,7 @@ export default function DashboardAnalytics() {
 
       const revenueMap: Record<string, number> = {};
 
-      fetchedTransactions.forEach((trx: Transaction) => {
+      paidTransactions.forEach((trx: Transaction) => {
         const date = new Date(trx.created_at).toLocaleDateString("id-ID");
         if (revenueMap[date]) {
           revenueMap[date] += Number(trx.total_price || 0);
