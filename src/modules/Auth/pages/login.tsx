@@ -47,7 +47,7 @@ export default function App() {
           break;
 
         case "kasir":
-          navigate("/cashier/menu");
+          navigate("/cashier/payment-verification");
           break;
 
         case "dapur":
