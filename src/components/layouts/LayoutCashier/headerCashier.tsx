@@ -31,7 +31,7 @@ export default function HeaderCashier() {
             <h1 className="text-2xl font-bold text-orange-600">DineFlow</h1>
             <nav>
               <ul className="flex flex-wrap items-center gap-3 sm:gap-5 text-sm sm:text-base text-gray-600 font-medium">
-                <li>
+                {/* <li>
                   <NavLink
                     to="/cashier/menu"
                     className={({ isActive }) =>
@@ -54,9 +54,9 @@ export default function HeaderCashier() {
                   >
                     Orders
                   </NavLink>
-                </li>
+                </li> */}
 
-                <li>
+                {/* <li>
                   <NavLink
                     to="/cashier/payment-verification"
                     className={({ isActive }) =>
@@ -67,7 +67,7 @@ export default function HeaderCashier() {
                   >
                     Payment
                   </NavLink>
-                </li>
+                </li> */}
               </ul>
             </nav>
           </div>
@@ -86,7 +86,7 @@ export default function HeaderCashier() {
               </div>
               <button
                 onClick={handleLogout}
-                className=" rounded-xl text-black hover:text-red-200 bold flex items-center justify-center transition"
+                className=" rounded-xl text-black hover:text-red-900 bold flex items-center justify-center transition"
               >
                 <AiOutlineLogout className="size-5" />
               </button>
