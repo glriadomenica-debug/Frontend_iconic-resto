@@ -10,3 +10,4 @@ export { default as Category } from "./Categories/pages/CategoryList";
 export { default as EditCat } from "./Categories/pages/EditCategory";
 export { default as ListProduct } from "./Products/pages/ProductList";
 export { default as EditProduct } from "./Products/pages/EditProduct";
+export { default as TransactionReport } from "./Transaction/pages/TransactionReport";

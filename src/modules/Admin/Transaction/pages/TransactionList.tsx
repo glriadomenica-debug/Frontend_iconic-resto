@@ -6,6 +6,7 @@ import { AiFillFile } from "react-icons/ai";
 import TransactionDetailModal from "../../../../components/modals/Transaction/TransactionDetailModal";
 import TransactionEditModal from "../../../../components/modals/Transaction/TransactionEditModal";
 import ReportModal from "../../../../components/modals/Transaction/ReportModal";
+import { Link } from "react-router-dom";
 
 interface Transaction {
   id: number;
@@ -30,7 +31,7 @@ export default function TransactionList() {
   const [openReport, setOpenReport] = useState(false);
   const [reportData, setReportData] = useState<any>(null);
 
-  const fetchTransactions = async (pageNumber : number) => {
+  const fetchTransactions = async (pageNumber: number) => {
     try {
       const res = await axios({
         method: "GET",
@@ -144,47 +145,30 @@ export default function TransactionList() {
     try {
       const res = await axios({
         method: "GET",
-        url: "http://localhost:8000/api/transactions",
+        url: "http://localhost:8000/api/transactions/report",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      const trx = res.data.data.data || [];
+      const trx = res.data.data || [];
 
-      // total revenue
+      // TOTAL REVENUE
       const totalRevenue = trx.reduce(
         (sum: number, item: any) => sum + Number(item.total_price || 0),
         0,
       );
 
-      // payment method
+      // PAYMENT METHOD
       const paymentMap: Record<string, number> = {};
 
       trx.forEach((item: any) => {
         const method = item.payment_method || "unknown";
 
-        if (paymentMap[method]) {
-          paymentMap[method] += 1;
-        } else {
-          paymentMap[method] = 1;
-        }
+        paymentMap[method] = (paymentMap[method] || 0) + 1;
       });
 
-      // revenue/day
-      const dailyRevenue: Record<string, number> = {};
-
-      trx.forEach((item: any) => {
-        const date = new Date(item.created_at).toLocaleDateString("id-ID");
-
-        if (dailyRevenue[date]) {
-          dailyRevenue[date] += Number(item.total_price || 0);
-        } else {
-          dailyRevenue[date] = Number(item.total_price || 0);
-        }
-      });
-
-      // products
+      // PRODUCT SOLD
       const productMap: Record<string, number> = {};
 
       trx.forEach((transaction: any) => {
@@ -193,19 +177,16 @@ export default function TransactionList() {
 
           if (!productName) return;
 
-          if (productMap[productName]) {
-            productMap[productName] += detail.qty;
-          } else {
-            productMap[productName] = detail.qty;
-          }
+          productMap[productName] = (productMap[productName] || 0) + detail.qty;
         });
       });
+
       setReportData({
         totalRevenue,
         paymentMap,
-        dailyRevenue,
         productMap,
       });
+
       setOpenReport(true);
     } catch (error) {
       console.log(error);
@@ -225,12 +206,12 @@ export default function TransactionList() {
             </p>
           </div>
           <div>
-            <button
-              onClick={generateReport}
+            <Link
+              to="/transactions/report"
               className="flex items-center justify-between gap-2 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-xl transition"
             >
-              <AiFillFile/> Report
-            </button>
+              <AiFillFile /> Report
+            </Link>
           </div>
         </div>
 

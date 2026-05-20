@@ -14,6 +14,7 @@ import EditCat from "./Categories/pages/EditCategory";
 import ProdList from "./Products/pages/ProductList";
 import EditProd from "./Products/pages/EditProduct";
 import ProtectedRoute from "../../components/ProtectedRoute";
+import TransactionReport from "./Transaction/pages/TransactionReport";
 
 const AdminRoutes = [
   {
@@ -167,6 +168,20 @@ const AdminRoutes = [
       {
         index: true,
         element: <TransactionList />,
+      },
+    ],
+  },
+  {
+    path: "/transactions/report",
+    element: (
+      <ProtectedRoute allowedRoles={["admin"]}>
+        <LayoutAdmin />,
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <TransactionReport />,
       },
     ],
   },
