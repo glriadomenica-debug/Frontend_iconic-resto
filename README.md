@@ -1,73 +1,238 @@
-# React + TypeScript + Vite
+# 🍽️ Point of Sale - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend application for **Self Order System** built using React, TypeScript, Tailwind CSS, and Vite.  
+This system helps restaurants manage customer self-ordering, kitchen workflows, cashier payments, and analytics dashboards.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+### 👨‍🍳 Customer Side
+- Browse food & beverage menu
+- Add to cart
+- Self ordering system
+- Customer order tracking
+- cash/cashless payment
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🧾 Cashier Side
+- Verify payments
+- Manage transaction status
 
-## Expanding the ESLint configuration
+### 🍳 Kitchen Side
+- Kitchen order management
+- Cooking status update
+- Real-time order flow
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🛠️ Admin Side
+- Dashboard analytics
+- Revenue analytics chart
+- Most ordered products chart
+- Transaction reports
+- Product management
+- Category management
+- Staff management
+- User & role management
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🧑‍💻 Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Frontend
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Axios
+- Recharts
+- React Router DOM
+- React Icons
+- jsPDF
+- jspdf-autotable
+
+### Backend
+- Laravel REST API
+- Laravel Sanctum Authentication
+
+---
+
+## 📊 Dashboard Analytics
+
+The admin dashboard includes:
+- Total revenue
+- Total paid transactions
+- Most ordered products
+- Revenue analytics chart
+
+Analytics only calculate transactions with:
+
+```txt
+status = paid
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📁 Project Structure
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+src/
+├── assets/
+├── components/
+├── layouts/
+├── pages/
+│   ├── Admin/
+│   ├── Customer/
+│   ├── Cashier/
+│   └── Kitchen/
+├── routes/
+├── services/
+└── utils/
 ```
+
+---
+
+## 🚀 Installation
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/glriadomenica-debug/Frontend_iconic-resto.git
+```
+
+### 2. Go To Project Folder
+
+```bash
+cd Frontend_iconic-resto
+```
+
+### 3. Install Dependencies
+
+```bash
+npm install
+```
+
+### 4. Run Development Server
+
+```bash
+npm run dev
+```
+
+---
+
+## 🔐 Environment Setup
+
+Create `.env` file:
+
+```env
+VITE_API_URL=http://localhost:8000/api
+```
+
+---
+
+## 🔗 Backend Repository
+https://github.com/glriadomenica-debug/Backend_iconic-resto
+
+Make sure backend Laravel API is running.
+
+Example API:
+
+```txt
+http://localhost:8000/api
+```
+
+---
+
+## 📌 Main Modules
+
+| Module | Description |
+|---|---|
+| Authentication | Login & Role Access |
+| Product Management | CRUD menu products |
+| Category Management | CRUD categories |
+| Transaction System | Customer ordering |
+| Kitchen Management | Kitchen workflow |
+| Payment Verification | Cashier payment verification |
+| Analytics Dashboard | Revenue & sales analytics |
+| Reporting System | Monthly transaction reports |
+
+---
+
+## 📈 Analytics Features
+
+### Most Ordered Products
+Displays top-selling menu items based on paid transactions.
+
+### Revenue Analytics
+Displays daily revenue charts from paid transactions.
+
+### Transaction Report
+Generate downloadable PDF reports:
+- Total revenue
+- Best seller products
+- Most used payment method
+
+---
+
+## 👥 User Roles
+
+| Role | Access |
+|---|---|
+| Admin | Full system access |
+| Cashier | Payment verification |
+| Kitchen | Kitchen order management |
+| Customer | Self ordering |
+
+---
+
+## 🗄️ Database Relationships
+
+```txt
+Transactions 1 : N TransactionDetails
+Products 1 : N TransactionDetails
+Transactions 1 : 1 PaymentVerification
+Roles 1 : N Users
+Categories 1 : N Products
+```
+
+---
+
+## 📸 System Overview
+Customer side :
+<img width="1807" height="870" alt="Screenshot (59)" src="https://github.com/user-attachments/assets/f2d7f075-312d-43aa-9610-e8faaea276ac" />
+
+Cashier side :
+<img width="1881" height="879" alt="Screenshot (61)" src="https://github.com/user-attachments/assets/d053ac01-4278-4dd0-ae52-7cf4f99c99e3" />
+
+kitchen side : 
+<img width="1882" height="854" alt="Screenshot (62)" src="https://github.com/user-attachments/assets/9c309b6a-b33e-4a15-a445-72dd08e8ed0e" />
+
+Admin side : 
+<img width="1879" height="873" alt="Screenshot (63)" src="https://github.com/user-attachments/assets/b998bf71-9337-416c-973a-c7e1b0dc5a23" />
+
+---
+
+### Customer Self Order
+Customers can order directly from the menu without waiting for staff.
+
+### Kitchen Workflow
+Kitchen staff receive real-time order updates.
+
+### Analytics Dashboard
+Admin can monitor:
+- Revenue
+- Product performance
+- Transaction analytics
+
+---
+
+## 📄 License
+
+This project is for educational and portfolio purposes.
+
+---
+
+## 👩‍💻 Developer
+
+Developed by Gloria Domenica Ferreira Da Costa E Silva
+
+GitHub:
+https://github.com/glriadomenica-debug
