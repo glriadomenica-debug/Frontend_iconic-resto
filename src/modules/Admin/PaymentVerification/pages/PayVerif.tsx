@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+interface TransactionDetail {
+  id: number;
+  qty: number;
+  note?: string;
+  product: {
+    product_name: string;
+    price: number;
+  };
+}
+
 interface Transaction {
   id: number;
   customer_name: string;
@@ -9,11 +19,18 @@ interface Transaction {
   payment_method: string;
   status: string;
   created_at: string;
+
+  transaction_details: TransactionDetail[];
 }
 
 export default function PaymentVerificationPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [filterStatus, setFilterStatus] = useState("all");
+
+  // MODAL
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedMenus, setSelectedMenus] = useState<TransactionDetail[]>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState("");
 
   const token = localStorage.getItem("token");
 
@@ -29,7 +46,6 @@ export default function PaymentVerificationPage() {
         },
       });
 
-      // tampilkan semua transaksi selain cancelled
       const filtered = res.data.data.data.filter(
         (item: Transaction) => item.status !== "cancelled",
       );
@@ -78,6 +94,26 @@ export default function PaymentVerificationPage() {
     }
   };
 
+  // FETCH MENU DETAIL
+  const viewMenus = async (transactionId: number, customer: string) => {
+    try {
+      const res = await axios({
+        method: "GET",
+        url: `http://localhost:8000/api/transactions/${transactionId}/details`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(res.data);
+      setSelectedMenus(res.data.data);
+      setSelectedCustomer(customer);
+      setOpenModal(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="p-6 min-h-screen bg-gray-100">
       {/* Filter Payment*/}
@@ -108,7 +144,7 @@ export default function PaymentVerificationPage() {
       </div>
 
       {/* CARD */}
-      <div className="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         {transactions.length > 0 ? (
           filteredTransactions.map((t) => (
             <div key={t.id} className="bg-white rounded-2xl shadow-md p-5">
@@ -164,18 +200,26 @@ export default function PaymentVerificationPage() {
                 </div>
               </div>
 
-              {/* BUTTON */}
+              {/* View ordered menu */}
+              <button
+                onClick={() => viewMenus(t.id, t.customer_name)}
+                className="w-full mt-5 bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl transition cursor-pointer"
+              >
+                View Ordered Menu
+              </button>
+
+              {/* Verify payment */}
               {t.status !== "paid" ? (
                 <button
                   onClick={() => verifyPayment(t.id, t.payment_method)}
-                  className="w-full mt-5 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl transition"
+                  className="w-full mt-3 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl transition cursor-pointer"
                 >
                   Verify Payment
                 </button>
               ) : (
                 <button
                   disabled
-                  className="w-full mt-5 bg-gray-400 text-white py-3 rounded-xl cursor-not-allowed"
+                  className="w-full mt-3 bg-gray-400 text-white py-3 rounded-xl cursor-not-allowed"
                 >
                   Already Paid
                 </button>
@@ -188,6 +232,56 @@ export default function PaymentVerificationPage() {
           </div>
         )}
       </div>
+
+      {/* MODAL */}
+      {openModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-6 w-[90%] max-w-lg">
+            <div className="flex justify-between items-center mb-5">
+              <h2 className="text-2xl font-bold">
+                Ordered Menu - {selectedCustomer}
+              </h2>
+
+              <button
+                onClick={() => setOpenModal(false)}
+                className="text-red-500 font-bold text-xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4 max-h-[400px] overflow-y-auto">
+              {selectedMenus.map((item) => (
+                <div
+                  key={item.id}
+                  className="border rounded-xl p-4 flex justify-between items-center"
+                >
+                  <div>
+                    <h3 className="font-semibold">
+                      {item.product.product_name}
+                    </h3>
+
+                    <p className="text-sm text-gray-500">Qty : {item.qty}</p>
+
+                    {item.note && (
+                      <p className="text-sm text-orange-500">
+                        Note : {item.note}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="font-semibold text-orange-500">
+                    Rp.{" "}
+                    {(item.product.price * item.qty * 1000).toLocaleString(
+                      "id-ID",
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

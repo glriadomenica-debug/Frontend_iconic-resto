@@ -209,7 +209,7 @@ export default function MenuPage() {
 
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-black/40" />
-                <div className="relative z-10 flex flex-col justify-end h-full p-4 text-white">
+                <div className="relative flex flex-col justify-end h-full p-4 text-white">
                   <h2 className="font-bold text-lg">{p.product_name}</h2>
                   <p className="text-sm mt-1">
                     Rp. {(p.price * 1000).toLocaleString("id-ID")}

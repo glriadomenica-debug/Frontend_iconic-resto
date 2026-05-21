@@ -81,6 +81,12 @@ export default function TransactionReport() {
   // Best seller menu
   const bestSeller = Object.entries(productMap).sort((a, b) => b[1] - a[1])[0];
 
+  const formatPaymentMethod = (method: string) => {
+    return method
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  };
+
   const downloadReport = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
@@ -170,7 +176,9 @@ export default function TransactionReport() {
           <h2 className="text-sm text-gray-600">Most Used Payment</h2>
 
           <p className="text-2xl font-bold mt-2 capitalize">
-            {mostUsedPayment?.[0] || "-"}
+            {mostUsedPayment?.[0]
+              ? formatPaymentMethod(mostUsedPayment[0])
+              : "-"}
           </p>
         </div>
 
