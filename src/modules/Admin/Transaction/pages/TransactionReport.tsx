@@ -7,7 +7,7 @@ export default function TransactionReport() {
   const [transactions, setTransactions] = useState<any[]>([]);
   const [filterType, setFilterType] = useState("monthly");
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedYear, _setSelectedYear] = useState(new Date().getFullYear());
 
   const token = localStorage.getItem("token");
 

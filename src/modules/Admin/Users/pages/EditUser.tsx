@@ -12,7 +12,7 @@ interface Users {
 export default function EditUser() {
   const id = useParams().id;
   const navigate = useNavigate();
-  const [user, setUser] = useState<Users>({
+  const [_user, setUser] = useState<Users>({
     id: 0,
     name: "",
     email: "",

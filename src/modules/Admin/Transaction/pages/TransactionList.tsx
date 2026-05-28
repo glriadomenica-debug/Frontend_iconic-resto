@@ -29,7 +29,7 @@ export default function TransactionList() {
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [openReport, setOpenReport] = useState(false);
-  const [reportData, setReportData] = useState<any>(null);
+  const [reportData, _setReportData] = useState<any>(null);
 
   const fetchTransactions = async (pageNumber: number) => {
     try {
@@ -141,57 +141,57 @@ export default function TransactionList() {
     }
   };
 
-  const generateReport = async () => {
-    try {
-      const res = await axios({
-        method: "GET",
-        url: "http://localhost:8000/api/transactions/report",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  // const generateReport = async () => {
+  //   try {
+  //     const res = await axios({
+  //       method: "GET",
+  //       url: "http://localhost:8000/api/transactions/report",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
 
-      const trx = res.data.data || [];
+  //     const trx = res.data.data || [];
 
-      // TOTAL REVENUE
-      const totalRevenue = trx.reduce(
-        (sum: number, item: any) => sum + Number(item.total_price || 0),
-        0,
-      );
+  //     // TOTAL REVENUE
+  //     const totalRevenue = trx.reduce(
+  //       (sum: number, item: any) => sum + Number(item.total_price || 0),
+  //       0,
+  //     );
 
-      // PAYMENT METHOD
-      const paymentMap: Record<string, number> = {};
+  //     // PAYMENT METHOD
+  //     const paymentMap: Record<string, number> = {};
 
-      trx.forEach((item: any) => {
-        const method = item.payment_method || "unknown";
+  //     trx.forEach((item: any) => {
+  //       const method = item.payment_method || "unknown";
 
-        paymentMap[method] = (paymentMap[method] || 0) + 1;
-      });
+  //       paymentMap[method] = (paymentMap[method] || 0) + 1;
+  //     });
 
-      // PRODUCT SOLD
-      const productMap: Record<string, number> = {};
+  //     // PRODUCT SOLD
+  //     const productMap: Record<string, number> = {};
 
-      trx.forEach((transaction: any) => {
-        transaction.transaction_details?.forEach((detail: any) => {
-          const productName = detail.product?.product_name;
+  //     trx.forEach((transaction: any) => {
+  //       transaction.transaction_details?.forEach((detail: any) => {
+  //         const productName = detail.product?.product_name;
 
-          if (!productName) return;
+  //         if (!productName) return;
 
-          productMap[productName] = (productMap[productName] || 0) + detail.qty;
-        });
-      });
+  //         productMap[productName] = (productMap[productName] || 0) + detail.qty;
+  //       });
+  //     });
 
-      setReportData({
-        totalRevenue,
-        paymentMap,
-        productMap,
-      });
+  //     setReportData({
+  //       totalRevenue,
+  //       paymentMap,
+  //       productMap,
+  //     });
 
-      setOpenReport(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     setOpenReport(true);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <>
