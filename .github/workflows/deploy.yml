@@ -39,9 +39,9 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts || true
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Deploy ke Application
         run: |
@@ -51,7 +51,7 @@ jobs:
           echo "USER=$USER"
           echo "IP=$IP"
 
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 $USER@$IP "
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $USER@$IP "
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} &&
             docker pull ${{ env.IMAGE_NAME }}:main &&
             docker stop react-prod || true &&
