@@ -44,7 +44,13 @@ jobs:
 
       - name: Deploy ke Application
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
+          USER=${{ secrets.SERVER_USER }}
+          IP=${{ secrets.SERVER_IP }}
+
+          echo "USER=$USER"
+          echo "IP=$IP"
+
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 $USER@$IP "
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} &&
             docker pull ${{ env.IMAGE_NAME }}:main &&
             docker stop react-prod || true &&
